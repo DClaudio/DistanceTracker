@@ -8,7 +8,7 @@ import org.scalatra._
 // MongoDb-specific imports
 import com.mongodb.casbah.Imports._
 
-class MongoController(mongoCollection: MongoCollection) extends MyScalatraWebAppStack {
+class MongoController(mongoCollection: MongoCollection) extends ScalatraServlet {
 
   /**
    * Insert a new object into the database. You can use the following from your console to try it out:

@@ -7,13 +7,13 @@ import ScalateKeys._
 
 object MyScalatraWebAppBuild extends Build {
   val Organization = "com.example"
-  val Name = "My Scalatra Web App"
+  val Name = "Distance Tracker API"
   val Version = "0.1.0-SNAPSHOT"
   val ScalaVersion = "2.11.6"
   val ScalatraVersion = "2.4.0-RC2-2"
 
   lazy val project = Project (
-    "my-scalatra-web-app",
+    "distancetracker-api",
     file("."),
     settings = ScalatraPlugin.scalatraWithJRebel ++ scalateSettings ++ Seq(
       organization := Organization,
@@ -26,6 +26,7 @@ object MyScalatraWebAppBuild extends Build {
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
+        "org.scalatra" %% "scalatra-swagger"  % ScalatraVersion,
         "ch.qos.logback" % "logback-classic" % "1.1.2" % "runtime",
         "org.mongodb" %% "casbah" % "2.7.2",
         "org.json4s" %% "json4s-jackson" % "3.2.10",

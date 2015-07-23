@@ -1,2 +1,2 @@
-src/main/webapp/swagger/* linguist-vendored=false
-sbt linguist-vendored=false
+src/main/webapp/swagger/* linguist-vendored
+sbt linguist-vendored

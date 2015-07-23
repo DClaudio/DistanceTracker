@@ -13,14 +13,16 @@ class ScalatraBootstrap extends LifeCycle {
 
     // connecting with default settings localhost on port 27017
     val mongoClient = MongoClient("localhost", 27017)
-    val mongoCollection = mongoClient("distance_tracker")("users")
+    val mongoCollection =  mongoClient("distance_tracker")("users");
+    val deviceMongoCollection = mongoClient("distance_tracker")("devices")
+    val gpsMongoCollection = mongoClient("distance_tracker")("gps")
     val dtSwagger = new DistanceTrackerSwagger
 
     // pass a reference to the Mongo collection into your servlet when you mount it at application start:
     context.mount(new MongoController(mongoCollection), "/*")
 
-    context.mount(new DeviceApi(dtSwagger), "/Device/*")
-    context.mount(new GPSApi(dtSwagger), "/GPS/*")
+    context.mount(new DeviceApi(dtSwagger, deviceMongoCollection), "/devices/*","devices")
+    context.mount(new GPSApi(dtSwagger, gpsMongoCollection), "/gps/*","gps")
 
     //swagger
     context.mount(new ResourcesApp(dtSwagger), "/api-docs")

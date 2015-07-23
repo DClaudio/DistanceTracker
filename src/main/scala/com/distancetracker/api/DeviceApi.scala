@@ -4,14 +4,15 @@ import org.scalatra.ScalatraServlet
 import org.scalatra.swagger._
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.json._
+import com.mongodb.casbah.Imports._
 import com.distancetracker.model.Device
 
-class DeviceApi (var swagger: Swagger) extends ScalatraServlet
+class DeviceApi (var swagger: Swagger, deviceMongoCollection: MongoCollection) extends ScalatraServlet
   with NativeJsonSupport with  SwaggerSupport{
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "DeviceApi"
-  override protected val applicationName: Option[String] = Some("Device")
+  override protected val applicationName: Option[String] = Some("devices")
 
   before() {
     contentType = formats("json")
@@ -19,31 +20,32 @@ class DeviceApi (var swagger: Swagger) extends ScalatraServlet
   }
 
   val devicesGetOperation = (apiOperation[List[Device]]("devicesGet")
-      summary ""
+      summary "Returns All available devices"
       parameters(
       )
     )
-  get("/devices",operation(devicesGetOperation)) {
+  get("/findAll",operation(devicesGetOperation)) {
   }
+
 
   val registerDeviceOperation = (apiOperation[Device]("registerDevice")
       summary "Register a device to the database."
       parameters(
-      bodyParam[String]("name").description("")
+        pathParam[String]("name").description("the name of the device to register")
       )
     )
-  post("/devices",operation(registerDeviceOperation)) {
+  post("/device/",operation(registerDeviceOperation)) {
     val name = parsedBody.extract[String]
     println("name: " + name)
   }
 
   val devicesDeviceidGetOperation = (apiOperation[Device]("devicesDeviceidGet")
     summary "Get a device"
-      parameters(
-      pathParam[String]("deviceid").description("")
+    parameters(
+      pathParam[Long]("deviceid").description("device id")
       )
     )
-  get("/devices/{deviceid}",operation(devicesDeviceidGetOperation)) {
+  get("/device/:deviceid",operation(devicesDeviceidGetOperation)) {
 
     val deviceid = params.getOrElse("deviceid", halt(400))
 
@@ -53,10 +55,10 @@ class DeviceApi (var swagger: Swagger) extends ScalatraServlet
   val devicesDeviceidPutOperation = (apiOperation[Device]("devicesDeviceidPut")
       summary "Update an existing device"
       parameters(
-        pathParam[String]("deviceid").description("")
+        pathParam[Long]("deviceid").description("device id")
       )
     )
-  put("/devices/{deviceid}",operation(devicesDeviceidPutOperation)) {
+  put("device/:deviceid",operation(devicesDeviceidPutOperation)) {
     val deviceid = params.getOrElse("deviceid", halt(400))
     println("deviceid: " + deviceid)
   }

@@ -1,6 +1,3 @@
 package com.distancetracker.model
 
-case class GPScoord (
-                      latitude: Double,
-                      longitude: Double
-                      )
+case class GPScoord (latitude: Double, longitude: Double)

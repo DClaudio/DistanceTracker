@@ -10,7 +10,7 @@ object MyScalatraWebAppBuild extends Build {
   val Name = "Distance Tracker API"
   val Version = "0.1.0-SNAPSHOT"
   val ScalaVersion = "2.11.6"
-  val ScalatraVersion = "2.4.0-RC2-2"
+  val ScalatraVersion = "2.3.0"
 
   lazy val project = Project (
     "distancetracker-api",
@@ -30,23 +30,12 @@ object MyScalatraWebAppBuild extends Build {
         "ch.qos.logback" % "logback-classic" % "1.1.2" % "runtime",
         "org.mongodb" %% "casbah" % "2.7.2",
         "org.json4s" %% "json4s-jackson" % "3.2.10",
+        "org.json4s" %% "json4s-native" % "3.2.10",
         "org.json4s" %% "json4s-mongo" % "3.2.10",
         "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "container",
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0"
-      ),
-      scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
-        Seq(
-          TemplateConfig(
-            base / "webapp" / "WEB-INF" / "templates",
-            Seq.empty,  /* default imports should be added here */
-            Seq(
-              Binding("context", "_root_.org.scalatra.scalate.ScalatraRenderContext", importMembers = true, isImplicit = true)
-            ),  /* add extra bindings here */
-            Some("templates")
-          )
-        )
-      }
+      )
     )
   )
 }

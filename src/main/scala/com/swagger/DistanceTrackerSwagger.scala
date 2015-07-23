@@ -6,7 +6,7 @@ import org.scalatra.swagger.{ApiInfo, NativeSwaggerBase, Swagger}
 /**
  * Created by claudio.david on 22/07/2015.
  */
-class ResourcesApp(implicit val swagger: Swagger) extends ScalatraServlet with NativeSwaggerBase
+class ResourcesApp(var swagger: Swagger) extends ScalatraServlet with NativeSwaggerBase
 
 object DistanceTrackerApiInfo extends ApiInfo(
     "DistanceTracker-API",

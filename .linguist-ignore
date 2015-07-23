@@ -1,6 +1,0 @@
-
-#ignore swagger ui
-src/main/webapp/swagger/*
-
-#ignore sbt build file
-sbt

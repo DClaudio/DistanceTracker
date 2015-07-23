@@ -1,2 +1,1 @@
 src/main/webapp/swagger/* linguist-vendored
-sbt linguist-vendored

@@ -47,9 +47,15 @@ with NativeJsonSupport with SwaggerSupport {
     val deviceid:Long = params.getOrElse("deviceid", halt(400)).toLong
     val coord: GPScoord = parsedBody.extract[GPScoord]
 
-    val entry = new GPSdata(deviceid, coord)
-    val newObj = MongoDBObject("deviceid" -> deviceid, "gps" -> coord)
-    gpsMongoCollection+= newObj
+
+    gpsMongoCollection.findAndModify(
+      query=MongoDBObject("deviceid" -> deviceid),
+      update=MongoDBObject("$set" -> MongoDBObject("gps" -> coord))
+    ) match {
+      case Some(obj) => obj
+      case None => gpsMongoCollection+= MongoDBObject("deviceid" -> deviceid, "gps" -> coord)
+    }
+
   }
 
 }

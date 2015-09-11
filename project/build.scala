@@ -19,7 +19,6 @@ object MyScalatraWebAppBuild extends Build {
       version := Version,
       scalaVersion := ScalaVersion,
       resolvers += Classpaths.typesafeReleases,
-      jetty(options = new ForkOptions(runJVMOptions = Seq("-Xdebug", "-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"))),
         libraryDependencies ++= Seq(
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-json" % ScalatraVersion,

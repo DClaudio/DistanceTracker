@@ -18,3 +18,37 @@ class BasicTest extends FlatSpec with Matchers {
     }
   }
 }
+/*
+ Different ways of doing unit tests with testspec
+  */
+
+
+class SetSuite extends FunSuite{
+
+  test("An empty set should have sitze 0"){
+    assert(Set.empty.size == 0)
+  }
+}
+
+class SetSpec extends FlatSpec{
+  "An empty Set" should "have size 0" in {
+    assert(Set.empty.size == 0)
+  }
+}
+
+class setSpecFunSpec extends FunSpec {
+
+  describe("A Set") {
+    describe("when empty"){
+      it("should have size o"){
+        assert(Set.empty.size == 0)
+      }
+
+      it("should produce NoSuchElementException when head is invoked"){
+        intercept[NoSuchElementException]{
+          Set.empty.head
+        }
+      }
+    }
+  }
+}

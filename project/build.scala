@@ -2,8 +2,6 @@ import sbt._
 import Keys._
 import org.scalatra.sbt._
 import org.scalatra.sbt.PluginKeys._
-import com.mojolly.scalate.ScalatePlugin._
-import ScalateKeys._
 
 object MyScalatraWebAppBuild extends Build {
   val Organization = "com.example"
@@ -12,29 +10,24 @@ object MyScalatraWebAppBuild extends Build {
   val ScalaVersion = "2.11.6"
   val ScalatraVersion = "2.3.0"
 
-  lazy val project = Project (
+  lazy val project = Project(
     "distancetracker-api",
     file("."),
-    settings = ScalatraPlugin.scalatraWithJRebel ++ scalateSettings ++ Seq(
+    settings = ScalatraPlugin.scalatraWithJRebel ++ Seq(
       organization := Organization,
       name := Name,
       version := Version,
       scalaVersion := ScalaVersion,
       resolvers += Classpaths.typesafeReleases,
-      resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
-      libraryDependencies ++= Seq(
+      jetty(options = new ForkOptions(runJVMOptions = Seq("-Xdebug", "-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"))),
+        libraryDependencies ++= Seq(
         "org.scalatra" %% "scalatra" % ScalatraVersion,
-        "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
-        "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
-        "org.scalatra" %% "scalatra-swagger"  % ScalatraVersion,
-        "ch.qos.logback" % "logback-classic" % "1.1.2" % "runtime",
-        "org.mongodb" %% "casbah" % "2.7.2",
-        "org.json4s" %% "json4s-jackson" % "3.2.10",
+        "org.scalatra" %% "scalatra-json" % ScalatraVersion,
         "org.json4s" %% "json4s-native" % "3.2.10",
-        "org.json4s" %% "json4s-mongo" % "3.2.10",
         "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "container",
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
-        "javax.servlet" % "javax.servlet-api" % "3.1.0"
+        "javax.servlet" % "javax.servlet-api" % "3.1.0",
+        "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
       )
     )
   )

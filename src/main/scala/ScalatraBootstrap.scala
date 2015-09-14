@@ -1,5 +1,8 @@
 import javax.servlet.ServletContext
 
+import com.distancetracker.api.DeviceApi
+import com.distancetracker.dao.DeviceDao
+import com.distancetracker.persistence.InMemoryDataSource
 import com.test.api.TestApi
 import org.scalatra.LifeCycle
 import org.scalatra._
@@ -11,7 +14,9 @@ import org.scalatra._
 class ScalatraBootstrap extends LifeCycle {
   override def init(context: ServletContext): Unit = {
 
-    context.mount(new TestApi(), "/testapi")
+    val deviceDao = new DeviceDao(InMemoryDataSource)
+
+    context.mount(new DeviceApi, "/devices/*", "devices")
 
   }
 

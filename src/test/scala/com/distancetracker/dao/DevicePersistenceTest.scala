@@ -12,7 +12,7 @@ class DevicePersistenceTest extends BaseTest {
   val deviceDao = new DeviceDao(InMemoryDataSource)
 
   it should "persist a device in a storage" in {
-     
+
     val device = new Device("testName", "testMail")
     val deviceId = deviceDao.create(device)
 

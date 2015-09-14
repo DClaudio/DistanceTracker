@@ -1,7 +1,6 @@
-import sbt._
-import Keys._
 import org.scalatra.sbt._
-import org.scalatra.sbt.PluginKeys._
+import sbt.Keys._
+import sbt._
 
 object MyScalatraWebAppBuild extends Build {
   val Organization = "com.example"
@@ -19,13 +18,14 @@ object MyScalatraWebAppBuild extends Build {
       version := Version,
       scalaVersion := ScalaVersion,
       resolvers += Classpaths.typesafeReleases,
-        libraryDependencies ++= Seq(
+      libraryDependencies ++= Seq(
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-json" % ScalatraVersion,
         "org.json4s" %% "json4s-native" % "3.2.10",
         "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "container",
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0",
+        "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
         "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
       )
     )

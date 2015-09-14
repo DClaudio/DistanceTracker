@@ -1,5 +1,6 @@
 package com.distancetracker.dao
 
+
 /**
  * Created by claudio.david on 11/09/2015.
  */
@@ -14,9 +15,9 @@ trait GenericDao[T, PK] {
   def read(id: PK): T
 
   /** Save changes made to a persistent object.  */
-  def update(transientObject: T): Unit
+  def update(deviceId: PK, transientObject: T): Unit
 
   /** Remove an object from persistent storage in the database */
-  def delete(persistentObject: T): Unit
+  def delete(id: PK): Unit
 
 }

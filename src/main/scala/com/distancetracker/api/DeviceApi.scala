@@ -2,15 +2,21 @@ package com.distancetracker.api
 
 import com.distancetracker.model.Device
 import com.distancetracker.swagger.DistanceTrackerSwagger
+import org.scalatra.{Ok, Created, ScalatraServlet}
 import org.scalatra.swagger.{Swagger, SwaggerSupport}
-import org.scalatra.{Created, Ok, ScalatraServlet}
+
 
 /**
  * Created by claudio.david on 14/09/2015.
  */
-class DeviceApi(val swagger: Swagger = DistanceTrackerSwagger) extends ScalatraServlet with SwaggerSupport {
+class DeviceApi extends ScalatraServlet with SwaggerSupport {
 
+  val swagger: Swagger = DistanceTrackerSwagger
   protected val applicationDescription: String = "DeviceApi"
+
+  before(){
+    response.headers += ("Access-Control-Allow-Origin" -> "*")
+  }
 
   val createNewDeviceOperation = (apiOperation[Device]("createNewDevice")
     summary "Create a new device in the database."
@@ -19,7 +25,7 @@ class DeviceApi(val swagger: Swagger = DistanceTrackerSwagger) extends ScalatraS
     )
     )
   post("/device", operation(createNewDeviceOperation)) {
-    Created
+    Created(1L)
   }
 
   val devicesDeviceidGetOperation = (apiOperation[Device]("devicesDeviceidGet")
@@ -30,5 +36,9 @@ class DeviceApi(val swagger: Swagger = DistanceTrackerSwagger) extends ScalatraS
     Ok(new Device("n1", "m1"))
   }
 
+
+}
+
+object SwaggerSpecs{
 
 }

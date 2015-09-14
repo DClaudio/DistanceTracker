@@ -6,6 +6,11 @@ import org.scalatra.swagger.{ApiInfo, NativeSwaggerBase, Swagger}
 /**
  * Created by claudio.david on 22/07/2015.
  */
+
+class SwaggerIntegrationServlet extends ScalatraServlet with NativeSwaggerBase{
+  val swagger: Swagger = DistanceTrackerSwagger
+}
+
 object DistanceTrackerApiInfo extends ApiInfo(
   "DistanceTracker-API",
   "REST API for distance tracker mobile app",
@@ -16,4 +21,3 @@ object DistanceTrackerApiInfo extends ApiInfo(
 
 object DistanceTrackerSwagger extends Swagger(Swagger.SpecVersion, "1.0.0", DistanceTrackerApiInfo)
 
-class ResourcesApp(val swagger: Swagger = DistanceTrackerSwagger) extends ScalatraServlet with NativeSwaggerBase

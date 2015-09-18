@@ -1,6 +1,5 @@
 package com.distancetracker.api
 
-import com.distancetracker.model.Device
 import com.distancetracker.persistence.DeviceEntity
 import org.scalatra.test.specs2._
 
@@ -13,16 +12,17 @@ import org.json4s.jackson.JsonMethods._
  */
 class DeviceApiTest extends MutableScalatraSpec {
 
+  protected implicit val jsonFormats: Formats = DefaultFormats
+
   addServlet(classOf[DeviceApi], "/devices/*")
 
   "POST /devices/device" should {
     "return status 201(created)" in {
       post("/devices/device", "{name:'n1', email:'m1'}") {
-        var newDevice = new Device("n1", "m1")
         status must_== 201
+        var device = parse(body).extract[DeviceEntity]
         getContentTypeFromHeader(header) must contain("application/json")
-        val jsonBody = parse(body)
-        jsonBody.extract[DeviceEntity] must_== new DeviceEntity(_, "n1", "m1")
+        parse(body).extract[DeviceEntity] must_== DeviceEntity(1L,"n1", "m1")
       }
     }
   }

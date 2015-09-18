@@ -1,6 +1,7 @@
 package com.distancetracker.api
 
 import com.distancetracker.model.Device
+import com.distancetracker.persistence.DeviceEntity
 import com.distancetracker.swagger.DeviceApiDescription
 import org.scalatra.{Ok, Created}
 import org.slf4j.LoggerFactory
@@ -15,7 +16,8 @@ class DeviceApi extends BaseController with DeviceApiDescription {
 
   post("/device", operation(createNewDeviceOperation)) {
     logger.info("create new device method")
-    Created(1L)
+    val dev = parsedBody.extract[Device]
+    Created(DeviceEntity(1, dev.name, dev.email))
   }
 
   get("/device/:deviceId", operation(devicesDeviceidGetOperation)) {

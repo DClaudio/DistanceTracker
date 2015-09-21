@@ -27,7 +27,7 @@ object MyScalatraWebAppBuild extends Build {
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0",
         "org.scalatra" %% "scalatra-swagger" % ScalatraVersion,
-        "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
+        "org.scalatra" %% "scalatra-scalatest" % ScalatraVersion % "test",
         "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",
         "ch.qos.logback" % "logback-classic" % "1.1.1" % "runtime"
       )

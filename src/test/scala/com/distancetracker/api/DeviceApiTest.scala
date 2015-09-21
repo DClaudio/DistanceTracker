@@ -1,44 +1,43 @@
 package com.distancetracker.api
 
+import com.distancetracker.model.Device
 import com.distancetracker.persistence.DeviceEntity
-import org.scalatra.test.specs2._
-
-import scala.collection.DefaultMap
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
+import org.scalatest.FunSuiteLike
+import org.scalatra.test.scalatest.ScalatraSuite
+import org.json4s.native.Serialization.write
+
+import scala.collection.DefaultMap
 
 /**
  * Created by claudio.david on 14/09/2015.
  */
-class DeviceApiTest extends MutableScalatraSpec {
+class DeviceApiTest extends ScalatraSuite with FunSuiteLike {
 
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   addServlet(classOf[DeviceApi], "/devices/*")
 
-  "POST /devices/device" should {
-    "return status 201(created)" in {
-      post("/devices/device", "{name:'n1', email:'m1'}") {
-        status must_== 201
-        var device = parse(body).extract[DeviceEntity]
-        getContentTypeFromHeader(header) must contain("application/json")
-        parse(body).extract[DeviceEntity] must_== DeviceEntity(1L,"n1", "m1")
-      }
+  test("POST /devices/device") {
+    post("/devices/device", body = write(Device("n1", "m1")).getBytes, headers = Map("Content-Type" -> "application/json")) {
+      status should equal(201)
+      var device = parse(body).extract[DeviceEntity]
+      getContentTypeFromHeader(header) should include("application/json")
+      parse(body).extract[DeviceEntity] should be(DeviceEntity(1L,"n1", "m1"))
     }
   }
 
-  "GET /devices/device/123 on DeviceApi" should {
-    "return status 200" in {
-      get("/devices/device/123") {
-        status must_== 200
-        getContentTypeFromHeader(header) must contain("application/json")
-      }
+  test("retrieve a device") {
+    get("/devices/device/123") {
+      status should equal(200)
+      getContentTypeFromHeader(header) should include("application/json")
+      //body should include ("hi!")
     }
   }
 
 
-
-  def getContentTypeFromHeader(header: DefaultMap[String,String]):String = {
+  def getContentTypeFromHeader(header: DefaultMap[String, String]): String = {
     header.get("Content-Type") match {
       case Some(contentType: String) => contentType
       case None => ""

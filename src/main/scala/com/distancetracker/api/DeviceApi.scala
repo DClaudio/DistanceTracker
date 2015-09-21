@@ -16,8 +16,9 @@ class DeviceApi extends BaseController with DeviceApiDescription {
 
   post("/device", operation(createNewDeviceOperation)) {
     logger.info("create new device method")
-    val dev = parsedBody.extract[Device]
-    Created(DeviceEntity(1, dev.name, dev.email))
+    val dev = parsedBody
+    val d2 = dev.extract[Device]
+    Created(DeviceEntity(1, d2.name, d2.email))
   }
 
   get("/device/:deviceId", operation(devicesDeviceidGetOperation)) {

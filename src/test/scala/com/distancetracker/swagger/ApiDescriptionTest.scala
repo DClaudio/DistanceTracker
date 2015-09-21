@@ -1,19 +1,18 @@
 package com.distancetracker.swagger
 
-import org.scalatra.test.specs2.MutableScalatraSpec
+import org.scalatest.FunSuiteLike
+import org.scalatra.test.scalatest.ScalatraSuite
 
 /**
  * Created by claudio.david on 14/09/2015.
  */
-class ApiDescriptionTest extends MutableScalatraSpec{
+class ApiDescriptionTest extends ScalatraSuite with FunSuiteLike{
 
   addServlet(classOf[SwaggerIntegrationServlet], "/api-docs")
 
-  "GET /api-docs on root" should {
-    "return status 200" in {
+  test("GET /api-docs on root") {
       get("/api-docs") {
-        status must_== 200
-      }
+        status should equal(200)
     }
   }
 

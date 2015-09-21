@@ -14,7 +14,7 @@ abstract class BaseController extends ScalatraServlet with NativeJsonSupport {
 
   before() {
     response.headers += ("Access-Control-Allow-Origin" -> "*")
-    contentType = formats("json")
+    contentType += formats("json")
   }
 
 }

@@ -1,7 +1,5 @@
 package com.distancetracker.persistence
 
-
-import com.distancetracker.dao.EntityNotFoundException
 import com.distancetracker.model.Device
 
 import scala.collection.concurrent.TrieMap
@@ -20,18 +18,12 @@ object InMemoryDataSource extends DataSource {
     deviceId
   }
 
-  def getDevice(deviceId: Long): Device = {
-    database.get(deviceId) match {
-      case Some(device) => device
-      case None => throw new EntityNotFoundException("device doesn't exist in database")
-    }
+  def getDevice(deviceId: Long): Option[Device] = {
+    database.get(deviceId)
   }
 
-  def update(deviceId: Long, device: Device): Unit = {
-    database.put(deviceId, device) match {
-      case Some(_) =>
-      case None => throw new EntityNotFoundException("Can't update device, ID not found")
-    }
+  def update(deviceId: Long, device: Device): Option[Device] = {
+    database.put(deviceId, device)
   }
 
   def delete(deviceId: Long): Unit = {

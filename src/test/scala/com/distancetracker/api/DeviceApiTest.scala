@@ -20,7 +20,10 @@ class DeviceApiTest extends ScalatraSuite with FunSuiteLike {
   addServlet(classOf[DeviceApi], "/devices/*")
 
   test("POST /devices/device") {
-    post("/devices/device", body = write(Device("n1", "m1")).getBytes, headers = Map("Content-Type" -> "application/json")) {
+    val requestBody = write(Device("n1", "m1")).getBytes
+    val requestHeaders = Map("Content-Type" -> "application/json")
+
+    post("/devices/device", requestBody, requestHeaders ) {
       status should equal(201)
       var device = parse(body).extract[DeviceEntity]
       getContentTypeFromHeader(header) should include("application/json")
@@ -32,7 +35,6 @@ class DeviceApiTest extends ScalatraSuite with FunSuiteLike {
     get("/devices/device/123") {
       status should equal(200)
       getContentTypeFromHeader(header) should include("application/json")
-      //body should include ("hi!")
     }
   }
 

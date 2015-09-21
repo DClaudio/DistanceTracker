@@ -13,11 +13,11 @@ class DeviceDao(dataSource: DataSource) extends GenericDao[Device, Long] {
     dataSource.createNewDevice(newInstance)
   }
 
-  def read(deviceId: Long): Device = {
+  def read(deviceId: Long): Option[Device] = {
     dataSource.getDevice(deviceId)
   }
 
-  def update(deviceId: Long, device: Device): Unit = {
+  def update(deviceId: Long, device: Device): Option[Device] = {
     dataSource.update(deviceId, device)
   }
 

@@ -18,7 +18,7 @@ class DevicePersistenceTest extends BaseTest {
 
     val resultDevice = deviceDao.read(deviceId)
 
-    assert(device == resultDevice)
+    assert(resultDevice == Some(device))
 
   }
 
@@ -28,7 +28,7 @@ class DevicePersistenceTest extends BaseTest {
 
     deviceDao.update(idToUpdate, updatedDevice)
 
-    assert(deviceDao.read(idToUpdate) == updatedDevice)
+    assert(deviceDao.read(idToUpdate) == Some(updatedDevice))
   }
 
   it should "delete a device" in {
@@ -36,15 +36,11 @@ class DevicePersistenceTest extends BaseTest {
     val idToDelete = deviceDao.create(device)
     deviceDao.delete(idToDelete)
 
-    intercept[EntityNotFoundException] {
-      deviceDao.read(idToDelete)
-    }
+    assert(deviceDao.read(idToDelete) == None)
   }
 
-  it should "throw exception when delete a non existent device" in {
-    intercept[EntityNotFoundException] {
-      deviceDao.read(1L)
-    }
+  it should "return None when reading a non existing device" in {
+    assert(deviceDao.read(1L) == None)
   }
 
 }

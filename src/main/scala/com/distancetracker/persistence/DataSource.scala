@@ -9,9 +9,9 @@ trait DataSource {
   
   def createNewDevice(device: Device): Long
   
-  def getDevice(deviceId: Long): Device
+  def getDevice(deviceId: Long): Option[Device]
 
-  def update(deviceId: Long, device: Device)
+  def update(deviceId: Long, device: Device): Option[Device]
 
   def delete(devceId: Long)
 

@@ -6,18 +6,16 @@ package com.distancetracker.dao
  */
 trait GenericDao[T, PK] {
 
-  /** Persist the newInstance object into database */
+  /** Persist an item into storage */
   def create(item: T): PK
 
-  /** Retrieve an object that was previously persisted to the database using
-    * the indicated id as primary key
-    */
+  /** Retrieve an item from storage */
   def read(id: PK): Option[T]
 
-  /** Save changes made to a persistent object.  */
+  /** Save changes made to an item  */
   def update(id: PK, item: T): Option[T]
 
-  /** Remove an object from persistent storage in the database */
-  def delete(id: PK): Unit
+  /** Remove an item from persistent storage */
+  def delete(id: PK): Option[T]
 
 }

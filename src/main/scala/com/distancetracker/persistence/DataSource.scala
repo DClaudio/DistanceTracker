@@ -11,9 +11,9 @@ trait DataSource {
   
   def getDevice(deviceId: Long): Option[Device]
 
-  def update(deviceId: Long, device: Device): Option[Device]
+  def updateDevice(deviceId: Long, device: Device): Option[Device]
 
-  def delete(devceId: Long)
+  def deleteDevice(deviceId: Long): Option[Device]
 
   
 }

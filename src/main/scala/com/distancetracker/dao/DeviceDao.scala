@@ -18,11 +18,11 @@ class DeviceDao(dataSource: DataSource) extends GenericDao[Device, Long] {
   }
 
   def update(deviceId: Long, device: Device): Option[Device] = {
-    dataSource.update(deviceId, device)
+    dataSource.updateDevice(deviceId, device)
   }
 
-  def delete(deviceId: Long): Unit = {
-    dataSource.delete(deviceId)
+  def delete(deviceId: Long): Option[Device] = {
+    dataSource.deleteDevice(deviceId)
   }
 
 }

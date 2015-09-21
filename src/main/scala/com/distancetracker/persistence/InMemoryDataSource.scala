@@ -22,11 +22,11 @@ object InMemoryDataSource extends DataSource {
     database.get(deviceId)
   }
 
-  def update(deviceId: Long, device: Device): Option[Device] = {
+  def updateDevice(deviceId: Long, device: Device): Option[Device] = {
     database.put(deviceId, device)
   }
 
-  def delete(deviceId: Long): Unit = {
+  def deleteDevice(deviceId: Long): Option[Device] = {
     database.remove(deviceId)
   }
 

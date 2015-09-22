@@ -7,6 +7,7 @@ import org.json4s.jackson.JsonMethods._
 import org.scalatest.FunSuiteLike
 import org.scalatra.test.scalatest.ScalatraSuite
 import org.json4s.native.Serialization.write
+import com.mongodb.casbah.Imports.ObjectId
 
 import scala.collection.DefaultMap
 
@@ -27,7 +28,7 @@ class DeviceApiTest extends ScalatraSuite with FunSuiteLike {
       status should equal(201)
       var device = parse(body).extract[DeviceEntity]
       getContentTypeFromHeader(header) should include("application/json")
-      parse(body).extract[DeviceEntity] should be(DeviceEntity(1L,"n1", "m1"))
+      parse(body).extract[DeviceEntity] should be(DeviceEntity(new ObjectId,"n1", "m1"))
     }
   }
 

@@ -14,6 +14,7 @@ class MongoDataSource extends DataSource {
   val deviceCollection = mongoClient("distance_tracker")("device")
 
   override def createNewDevice(device: Device): Long = {
+    val id = new ObjectId
     val result = deviceCollection.insert(grater[Device].asDBObject(device))
     1L
   }

@@ -6,6 +6,7 @@ import scala.collection.concurrent.TrieMap
 
 /**
  * @author claudio
+ *  This simulates a persistent storage
  */
 object InMemoryDataSource extends DataSource {
 

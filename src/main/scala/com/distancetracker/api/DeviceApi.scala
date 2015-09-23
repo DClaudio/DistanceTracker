@@ -27,7 +27,7 @@ class DeviceApi() extends BaseController with DeviceApiDescription {
   get("/device/:deviceId", operation(devicesDeviceidGetOperation)) {
     logger.info("get device")
     val deviceId = params.get("deviceId")
-    val device = deviceDao.findOneById(new ObjectId(deviceId))
+    val device = deviceDao.findOneById(new ObjectId)
     Ok(new DeviceEntity(new ObjectId,"n1", "m1"))
   }
 

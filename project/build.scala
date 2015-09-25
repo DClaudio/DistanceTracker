@@ -31,6 +31,7 @@ object MyScalatraWebAppBuild extends Build {
         "org.scalatra" %% "scalatra-swagger" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalatest" % ScalatraVersion % "test",
         "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",
+        "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test",
         "ch.qos.logback" % "logback-classic" % "1.1.1" % "runtime"
       )
     )

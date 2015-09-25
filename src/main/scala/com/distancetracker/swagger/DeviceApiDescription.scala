@@ -1,7 +1,6 @@
 package com.distancetracker.swagger
 
 import com.distancetracker.model.{Device, DeviceEntity}
-import org.bson.types.ObjectId
 import org.scalatra.swagger.{Swagger, SwaggerSupport}
 
 /**
@@ -14,15 +13,14 @@ trait DeviceApiDescription extends SwaggerSupport{
   protected val applicationDescription: String = "DeviceApi"
 
 
-  val createNewDeviceOperation = (apiOperation[ObjectId]("createNewDevice")
+  val createNewDeviceOperation = (apiOperation[DeviceEntity]("createNewDevice")
     summary "Create a new device in the database."
-    parameters (
-    bodyParam[Device]("device").description("the device to register")
-    )
+    parameter bodyParam[Device]("device").description("the device to register").required
+
     )
 
-  val devicesDeviceidGetOperation = (apiOperation[DeviceEntity]("devicesDeviceidGet")
+  val devicesDeviceidGetOperation = (apiOperation[DeviceEntity]("getDevice")
     summary "Get a device"
-    parameters (pathParam[Long]("deviceid").description("device id"))
+    parameters (pathParam[String]("deviceid").description("device id")).required
     )
 }

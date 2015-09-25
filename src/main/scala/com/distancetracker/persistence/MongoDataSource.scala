@@ -20,9 +20,9 @@ class MongoDataSource extends DataSource {
 
   override def updateDevice(device: DeviceEntity): Option[DeviceEntity] = ???
 
-  override def deleteDevice(deviceId: ObjectId): Option[DeviceEntity] = ???
+  override def deleteDevice(deviceId: String): Option[DeviceEntity] = ???
 
-  override def getDevice(deviceId: ObjectId): Option[DeviceEntity] = {
+  override def getDevice(deviceId: String): Option[DeviceEntity] = {
     deviceCollection.findOne(MongoDBObject("_id" -> deviceId)) match {
       case Some(obj) => Some(grater[DeviceEntity].asObject(obj))
       case None => None

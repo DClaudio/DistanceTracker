@@ -11,14 +11,14 @@ import scala.collection.concurrent.TrieMap
  */
 object InMemoryDataSource extends DataSource {
 
-  val database = new TrieMap[ObjectId, DeviceEntity]
+  val database = new TrieMap[String, DeviceEntity]
 
   override def createNewDevice(device: DeviceEntity): Option[DeviceEntity] = {
     database.putIfAbsent(device.id, device)
     Some(device)
   }
 
-  override def getDevice(deviceId: ObjectId): Option[DeviceEntity] = {
+  override def getDevice(deviceId: String): Option[DeviceEntity] = {
     database.get(deviceId)
   }
 
@@ -29,7 +29,7 @@ object InMemoryDataSource extends DataSource {
     }
   }
 
-  override def deleteDevice(deviceId: ObjectId): Option[DeviceEntity] = {
+  override def deleteDevice(deviceId: String): Option[DeviceEntity] = {
     database.remove(deviceId)
   }
 

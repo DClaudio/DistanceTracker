@@ -7,14 +7,14 @@ import org.bson.types.ObjectId
 /**
  * @author claudio
  */
-class DeviceDao(dataSource: DataSource) extends GenericDao[DeviceEntity, ObjectId] {
+class DeviceDao(dataSource: DataSource) extends GenericDao[DeviceEntity, String] {
 
 
   def create(newInstance: DeviceEntity): Option[DeviceEntity] = {
     dataSource.createNewDevice(newInstance)
   }
 
-  def read(deviceId: ObjectId): Option[DeviceEntity] = {
+  def read(deviceId: String): Option[DeviceEntity] = {
     dataSource.getDevice(deviceId)
   }
 
@@ -22,7 +22,7 @@ class DeviceDao(dataSource: DataSource) extends GenericDao[DeviceEntity, ObjectI
     dataSource.updateDevice(device)
   }
 
-  def delete(deviceId: ObjectId): Option[DeviceEntity] = {
+  def delete(deviceId: String): Option[DeviceEntity] = {
     dataSource.deleteDevice(deviceId)
   }
 

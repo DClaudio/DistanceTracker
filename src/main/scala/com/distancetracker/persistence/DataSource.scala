@@ -12,7 +12,7 @@ trait DataSource {
   
   def getDevice(deviceId: ObjectId): Option[DeviceEntity]
 
-  def updateDevice(deviceId: ObjectId, device: DeviceEntity): Option[DeviceEntity]
+  def updateDevice(device: DeviceEntity): Option[DeviceEntity]
 
   def deleteDevice(deviceId: ObjectId): Option[DeviceEntity]
 

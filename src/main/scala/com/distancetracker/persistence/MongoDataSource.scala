@@ -18,7 +18,7 @@ class MongoDataSource extends DataSource {
     None
   }
 
-  override def updateDevice(deviceId: ObjectId, device: DeviceEntity): Option[DeviceEntity] = ???
+  override def updateDevice(device: DeviceEntity): Option[DeviceEntity] = ???
 
   override def deleteDevice(deviceId: ObjectId): Option[DeviceEntity] = ???
 

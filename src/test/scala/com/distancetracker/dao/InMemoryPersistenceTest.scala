@@ -25,10 +25,8 @@ class InMemoryPersistenceTest extends BaseTest {
     deviceDao.create(deviceToUpdate)
     val expectedDevice = new DeviceEntity(deviceToUpdate.id, "updatedName", "updatedMail")
 
-    deviceDao.update(deviceToUpdate.id, expectedDevice) match {
-      case Some(actualDevice) => assert(deviceDao.read(actualDevice.id) == Some(expectedDevice))
-      case None => fail
-    }
+    val actualDevice  = deviceDao.update(expectedDevice)
+    assert(actualDevice == Some(expectedDevice))
   }
 
 

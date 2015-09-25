@@ -7,14 +7,14 @@ import scala.collection.concurrent.TrieMap
 
 /**
  * @author claudio
- *  This simulates a persistent storage
+ *         This simulates a persistent storage
  */
 object InMemoryDataSource extends DataSource {
 
   val database = new TrieMap[ObjectId, DeviceEntity]
 
   override def createNewDevice(device: DeviceEntity): Option[DeviceEntity] = {
-    database.put(device.id, device)
+    database.putIfAbsent(device.id, device)
     Some(device)
   }
 
@@ -22,8 +22,11 @@ object InMemoryDataSource extends DataSource {
     database.get(deviceId)
   }
 
-  override def updateDevice(deviceId: ObjectId, device: DeviceEntity): Option[DeviceEntity] = {
-    database.put(deviceId, device)
+  override def updateDevice(device: DeviceEntity): Option[DeviceEntity] = {
+    database.replace(device.id, device) match {
+      case Some(_) => Some(device)
+      case None => None
+    }
   }
 
   override def deleteDevice(deviceId: ObjectId): Option[DeviceEntity] = {

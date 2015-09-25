@@ -1,7 +1,7 @@
 package com.distancetracker.salat
 
 import com.distancetracker.dao.MongoSalatDeviceDao
-import com.distancetracker.persistence.DeviceEntity
+import com.distancetracker.model.DeviceEntity
 
 import com.mongodb.casbah.Imports._
 import com.novus.salat._
@@ -31,7 +31,7 @@ object MainApp extends App{
   println(deviceDao.findOneById(objId))
 
   //TODO: fix this with implicit conversion
-  val results = deviceDao.find(ref = DeviceQueryParams(name = Some("gigel")))
-  println(results.toList)
+//  val results = deviceDao.find(ref = DeviceQueryParams(name = Some("gigel")))
+//  println(results.toList)
 
 }

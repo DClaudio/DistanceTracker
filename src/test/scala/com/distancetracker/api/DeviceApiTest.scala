@@ -1,13 +1,13 @@
 package com.distancetracker.api
 
-import com.distancetracker.model.Device
-import com.distancetracker.persistence.DeviceEntity
+import com.distancetracker.dao.DeviceDao
+import com.distancetracker.model.{Device, DeviceEntity}
+import com.distancetracker.persistence.InMemoryDataSource
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
+import org.json4s.native.Serialization.write
 import org.scalatest.FunSuiteLike
 import org.scalatra.test.scalatest.ScalatraSuite
-import org.json4s.native.Serialization.write
-import com.mongodb.casbah.Imports.ObjectId
 
 import scala.collection.DefaultMap
 
@@ -16,19 +16,22 @@ import scala.collection.DefaultMap
  */
 class DeviceApiTest extends ScalatraSuite with FunSuiteLike {
 
+  protected implicit val deviceDao: DeviceDao = new DeviceDao(InMemoryDataSource)
   protected implicit val jsonFormats: Formats = DefaultFormats
 
-  addServlet(classOf[DeviceApi], "/devices/*")
+  addServlet(new DeviceApi, "/devices/*")
 
   test("POST /devices/device") {
-    val requestBody = write(Device("n1", "m1")).getBytes
+    val actualDevice = Device("n1", "m1");
+    val requestBody = write(actualDevice).getBytes
     val requestHeaders = Map("Content-Type" -> "application/json")
 
-    post("/devices/device", requestBody, requestHeaders ) {
+    post("/devices/device", requestBody, requestHeaders) {
       status should equal(201)
-      var device = parse(body).extract[DeviceEntity]
       getContentTypeFromHeader(header) should include("application/json")
-      parse(body).extract[DeviceEntity] should be(DeviceEntity(new ObjectId,"n1", "m1"))
+      val returnedDevice: DeviceEntity = parse(body).extract[DeviceEntity]
+      returnedDevice.name should be(actualDevice.name)
+      returnedDevice.email should be(actualDevice.email)
     }
   }
 
@@ -38,7 +41,6 @@ class DeviceApiTest extends ScalatraSuite with FunSuiteLike {
       getContentTypeFromHeader(header) should include("application/json")
     }
   }
-
 
   def getContentTypeFromHeader(header: DefaultMap[String, String]): String = {
     header.get("Content-Type") match {

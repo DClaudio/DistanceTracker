@@ -1,6 +1,7 @@
 package com.distancetracker.persistence
 
-import com.distancetracker.model.Device
+import com.distancetracker.model.DeviceEntity
+import org.bson.types.ObjectId
 
 import scala.collection.concurrent.TrieMap
 
@@ -10,24 +11,22 @@ import scala.collection.concurrent.TrieMap
  */
 object InMemoryDataSource extends DataSource {
 
-  val database = new TrieMap[Long, Device]
-  val rng = scala.util.Random
+  val database = new TrieMap[ObjectId, DeviceEntity]
 
-  def createNewDevice(device: Device): Long = {
-    val deviceId = rng.nextLong()
-    database.put(deviceId, device)
-    deviceId
+  override def createNewDevice(device: DeviceEntity): Option[DeviceEntity] = {
+    database.put(device.id, device)
+    Some(device)
   }
 
-  def getDevice(deviceId: Long): Option[Device] = {
+  override def getDevice(deviceId: ObjectId): Option[DeviceEntity] = {
     database.get(deviceId)
   }
 
-  def updateDevice(deviceId: Long, device: Device): Option[Device] = {
+  override def updateDevice(deviceId: ObjectId, device: DeviceEntity): Option[DeviceEntity] = {
     database.put(deviceId, device)
   }
 
-  def deleteDevice(deviceId: Long): Option[Device] = {
+  override def deleteDevice(deviceId: ObjectId): Option[DeviceEntity] = {
     database.remove(deviceId)
   }
 

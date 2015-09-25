@@ -1,6 +1,6 @@
 package com.distancetracker.model
 
 /**
- * @author claudio
+ * Created by claudio.david on 25/09/2015.
  */
-case class Device(var name: String, var email: String)
+case class Device(name: String, email: String)

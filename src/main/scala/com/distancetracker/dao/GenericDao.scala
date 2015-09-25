@@ -7,7 +7,7 @@ package com.distancetracker.dao
 trait GenericDao[T, PK] {
 
   /** Persist an item into storage */
-  def create(item: T): PK
+  def create(item: T): Option[T]
 
   /** Retrieve an item from storage */
   def read(id: PK): Option[T]

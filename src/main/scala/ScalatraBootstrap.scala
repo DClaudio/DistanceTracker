@@ -5,7 +5,6 @@ import com.distancetracker.dao.DeviceDao
 import com.distancetracker.persistence.InMemoryDataSource
 import com.distancetracker.swagger.{SwaggerIntegrationServlet}
 import org.scalatra.LifeCycle
-import org.scalatra._
 
 
 /**
@@ -14,7 +13,7 @@ import org.scalatra._
 class ScalatraBootstrap extends LifeCycle {
   override def init(context: ServletContext): Unit = {
 
-    val deviceDao = new DeviceDao(InMemoryDataSource)
+    implicit val deviceDao = new DeviceDao(InMemoryDataSource)
 
     context.mount(new DeviceApi, "/devices/*", "devices")
 

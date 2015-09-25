@@ -1,6 +1,6 @@
 package com.distancetracker.salat
 
-import com.distancetracker.persistence.DeviceEntity
+import com.distancetracker.model.DeviceEntity
 import com.mongodb.casbah.Imports._
 import com.novus.salat._
 import com.novus.salat.global._

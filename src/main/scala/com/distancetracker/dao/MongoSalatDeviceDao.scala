@@ -1,6 +1,6 @@
 package com.distancetracker.dao
 
-import com.distancetracker.persistence.DeviceEntity
+import com.distancetracker.model.DeviceEntity
 import com.mongodb.casbah.MongoConnection
 import com.mongodb.casbah.Imports.ObjectId
 import com.novus.salat.dao.SalatDAO

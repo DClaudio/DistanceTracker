@@ -1,19 +1,20 @@
 package com.distancetracker.persistence
 
-import com.distancetracker.model.Device
+import com.distancetracker.model.DeviceEntity
+import org.bson.types.ObjectId
 
 /**
  * @author claudio
  */
 trait DataSource {
   
-  def createNewDevice(device: Device): Long
+  def createNewDevice(device: DeviceEntity): Option[DeviceEntity]
   
-  def getDevice(deviceId: Long): Option[Device]
+  def getDevice(deviceId: ObjectId): Option[DeviceEntity]
 
-  def updateDevice(deviceId: Long, device: Device): Option[Device]
+  def updateDevice(deviceId: ObjectId, device: DeviceEntity): Option[DeviceEntity]
 
-  def deleteDevice(deviceId: Long): Option[Device]
+  def deleteDevice(deviceId: ObjectId): Option[DeviceEntity]
 
   
 }

@@ -23,13 +23,11 @@ class DeviceApi(implicit var deviceDao: DeviceDao) extends BaseController with D
 
   get("/device/:deviceId", operation(devicesDeviceidGetOperation)) {
     logger.info("get device")
-    val deviceId = params.getOrElse("deviceId", "")
-    val res = deviceDao.read(deviceId)
-    res match {
+    val deviceId = params.getOrElse("deviceId", halt(400))
+    deviceDao.read(deviceId) match {
       case None => NotFound("device not found")
-      case Some(device) => Ok(Some(device))
+      case Some(device) => Ok(device)
     }
-
   }
 
 

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 /**
  * Created by claudio.david on 14/09/2015.
  */
-class DeviceApi(implicit val deviceDao: DeviceDao) extends BaseController with DeviceApiDescription {
+class DeviceApi(implicit var deviceDao: DeviceDao) extends BaseController with DeviceApiDescription {
 
   val logger = LoggerFactory.getLogger(getClass)
 
@@ -24,9 +24,10 @@ class DeviceApi(implicit val deviceDao: DeviceDao) extends BaseController with D
   get("/device/:deviceId", operation(devicesDeviceidGetOperation)) {
     logger.info("get device")
     val deviceId = params.getOrElse("deviceId", "")
-    deviceDao.read(deviceId) match {
-      case Some(d) => Ok(d)
-      case None => NotFound
+    val res = deviceDao.read(deviceId)
+    res match {
+      case None => NotFound("device not found")
+      case Some(device) => Ok(Some(device))
     }
 
   }

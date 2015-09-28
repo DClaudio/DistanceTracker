@@ -17,4 +17,8 @@ case class DeviceEntity(@Key("_id") id: String = ObjectId.get.toString, name: St
     this(ObjectId.get.toString, device.name, device.email)
   }
 
+  def this(id: String, device: Device) {
+    this(id, device.name, device.email)
+  }
+
 }

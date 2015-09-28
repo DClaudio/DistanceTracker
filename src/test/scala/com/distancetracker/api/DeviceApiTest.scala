@@ -11,7 +11,7 @@ import org.mockito.Mockito._
 /**
  * Created by claudio.david on 14/09/2015.
  */
-class DeviceApiTest extends BaseServletTest{
+class DeviceApiTest extends BaseServletTest {
 
   val jsonContentTypeHeader = Map("Content-Type" -> "application/json")
   protected implicit val jsonFormats: Formats = DefaultFormats
@@ -24,7 +24,7 @@ class DeviceApiTest extends BaseServletTest{
     val expectedDevice = new DeviceEntity(deviceParameter)
     when(mockDeviceDao.create(any[DeviceEntity])).thenReturn(Some(expectedDevice))
 
-    post("/devices/device", write(deviceParameter).getBytes, headers = jsonContentTypeHeader) {
+    post("/devices/device", body = write(deviceParameter).getBytes, headers = jsonContentTypeHeader) {
       status should equal(201)
       header.getOrElse("Content-Type", fail) should include("application/json")
 
@@ -46,8 +46,7 @@ class DeviceApiTest extends BaseServletTest{
   }
 
   test("GET /devices/device/:id - retrieve a device") {
-    val deviceParameter = Device("n1", "m1")
-    val expectedDevice = new DeviceEntity(deviceParameter)
+    val expectedDevice = new DeviceEntity("n1", "m1")
     when(mockDeviceDao.read(expectedDevice.id)).thenReturn(Some(expectedDevice))
 
     get("/devices/device/" + expectedDevice.id, headers = jsonContentTypeHeader) {
@@ -57,6 +56,39 @@ class DeviceApiTest extends BaseServletTest{
       val actualDevice: DeviceEntity = parse(body).extract[DeviceEntity]
       actualDevice should be(expectedDevice)
       verify(mockDeviceDao).read(expectedDevice.id)
+    }
+    reset(mockDeviceDao)
+  }
+
+  test("DELETE /devices/device/:id - removes device") {
+    val deviceToDelete = new DeviceEntity("n1", "m1")
+    when(mockDeviceDao.delete(deviceToDelete.id)).thenReturn(Some(deviceToDelete))
+
+    delete("/devices/device/" + deviceToDelete.id, headers = jsonContentTypeHeader) {
+      status should equal(200)
+      header.getOrElse("Content-Type", fail) should include("application/json")
+
+      val actualDeviceDeleted: DeviceEntity = parse(body).extract[DeviceEntity]
+      actualDeviceDeleted should be(deviceToDelete)
+      verify(mockDeviceDao).delete(deviceToDelete.id)
+    }
+    reset(mockDeviceDao)
+  }
+
+  test("PUT /devices/device/:id - updates device") {
+    val deviceParameter = Device("updatedValue", "updatedValue")
+    val updatedDevice = new DeviceEntity(deviceParameter)
+    val deviceToUpdate = new DeviceEntity(updatedDevice.id, "n1", "m1")
+    when(mockDeviceDao.update(updatedDevice)).thenReturn(Some(updatedDevice))
+
+    put("/devices/device/" + deviceToUpdate.id, body = write(deviceParameter).getBytes(),
+      headers = jsonContentTypeHeader) {
+      status should equal(200)
+      header.getOrElse("Content-Type", fail) should include("application/json")
+
+      val actualDeviceDeleted: DeviceEntity = parse(body).extract[DeviceEntity]
+      actualDeviceDeleted should be(updatedDevice)
+      verify(mockDeviceDao).update(updatedDevice)
     }
     reset(mockDeviceDao)
   }

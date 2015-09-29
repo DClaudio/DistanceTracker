@@ -1,19 +1,20 @@
 package com.distancetracker.model
 
-case class DeviceEntity(name: String, email: String) extends Entity {
+import com.novus.salat.annotations.raw.Key
+import org.bson.types.ObjectId
 
-  def this(id: String, name: String, email: String) {
-    this(name, email)
-    this.id = id
+case class DeviceEntity(@Key("_id") id: String = ObjectId.get.toString, name: String, email: String) extends Entity {
+
+  def this(name: String, email: String) {
+    this(ObjectId.get.toString, name, email)
   }
 
   def this(device: Device) {
-    this(device.name, device.email)
+    this(ObjectId.get.toString, device.name, device.email)
   }
 
   def this(id: String, device: Device) {
-    this(device.name, device.email)
-    this.id = id
+    this(id, device.name, device.email)
   }
 
 }

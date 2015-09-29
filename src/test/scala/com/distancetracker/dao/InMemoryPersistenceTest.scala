@@ -27,8 +27,6 @@ class InMemoryPersistenceTest extends BaseTest {
     assert(actualDevice == Some(expectedDevice))
   }
 
-
-
   it should "delete a device" in {
     val expectedDevice = new DeviceEntity("n1", "m1")
     deviceDao.create(expectedDevice)

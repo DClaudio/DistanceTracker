@@ -14,7 +14,7 @@ import org.mockito.Mockito._
 class DeviceApiTest extends BaseServletTest {
 
   val jsonContentTypeHeader = Map("Content-Type" -> "application/json")
-  protected implicit val jsonFormats: Formats = DefaultFormats
+  implicit val jsonFormats: Formats = DefaultFormats
   implicit var mockDeviceDao: DeviceDao = mock[DeviceDao]
 
   addServlet(new DeviceApi, "/devices/*")

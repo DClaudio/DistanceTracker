@@ -1,39 +1,38 @@
 package com.distancetracker.persistence
 
-import com.distancetracker.model.DeviceEntity
-import org.bson.types.ObjectId
+import com.distancetracker.model.{EntityBase, DeviceEntity}
 
 import scala.collection.concurrent.TrieMap
 
 /**
  * @author claudio
- *         This simulates a persistent storage
+ *         In memory data storage
  */
-class InMemoryDataSource extends DataSource {
+class InMemoryDataSource[T <: EntityBase] extends DataSource[T] {
 
-  val database = new TrieMap[String, DeviceEntity]
+  val database = new TrieMap[String, T]
 
-  override def createNewDevice(device: DeviceEntity): Option[DeviceEntity] = {
-    database.putIfAbsent(device.id, device)
-    Some(device)
+  override def create(entity: T): Option[T] = {
+    database.putIfAbsent(entity.id, entity)
+    Some(entity)
   }
 
-  override def getDevice(deviceId: String): Option[DeviceEntity] = {
-    database.get(deviceId)
+  override def get(id: String): Option[T] = {
+    database.get(id)
   }
 
-  override def updateDevice(device: DeviceEntity): Option[DeviceEntity] = {
-    database.replace(device.id, device) match {
-      case Some(_) => Some(device)
+  override def update(entity: T): Option[T] = {
+    database.replace(entity.id, entity) match {
+      case Some(_) => Some(entity)
       case None => None
     }
   }
 
-  override def deleteDevice(deviceId: String): Option[DeviceEntity] = {
-    database.remove(deviceId)
+  override def delete(id: String): Option[T] = {
+    database.remove(id)
   }
 
-  override def getAllDevices(): Set[DeviceEntity] = {
+  override def getAll(): Set[T] = {
     database.values.toSet
   }
 }

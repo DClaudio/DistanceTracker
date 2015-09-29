@@ -6,26 +6,26 @@ import com.distancetracker.persistence.DataSource
 /**
  * @author claudio
  */
-class DeviceDao(dataSource: DataSource) extends GenericDao[DeviceEntity, String] {
+class DeviceDao(dataSource: DataSource[DeviceEntity]) extends GenericDao[DeviceEntity, String] {
 
   def create(newInstance: DeviceEntity): Option[DeviceEntity] = {
-    dataSource.createNewDevice(newInstance)
+    dataSource.create(newInstance)
   }
 
   def read(deviceId: String): Option[DeviceEntity] = {
-    dataSource.getDevice(deviceId)
+    dataSource.get(deviceId)
   }
 
   def update(device: DeviceEntity): Option[DeviceEntity] = {
-    dataSource.updateDevice(device)
+    dataSource.update(device)
   }
 
   def delete(deviceId: String): Option[DeviceEntity] = {
-    dataSource.deleteDevice(deviceId)
+    dataSource.delete(deviceId)
   }
 
   def getAll(): Set[DeviceEntity] = {
-    dataSource.getAllDevices
+    dataSource.getAll
   }
 
 }

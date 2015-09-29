@@ -1,20 +1,21 @@
 package com.distancetracker.persistence
 
-import com.distancetracker.model.DeviceEntity
+import com.distancetracker.model.EntityBase
+
 
 /**
  * @author claudio
  */
-trait DataSource {
+trait DataSource[T <: EntityBase] {
 
-  def createNewDevice(device: DeviceEntity): Option[DeviceEntity]
+  def create(device: T): Option[T]
 
-  def getDevice(deviceId: String): Option[DeviceEntity]
+  def get(id: String): Option[T]
 
-  def updateDevice(device: DeviceEntity): Option[DeviceEntity]
+  def update(entity: T): Option[T]
 
-  def deleteDevice(deviceId: String): Option[DeviceEntity]
+  def delete(id: String): Option[T]
 
-  def getAllDevices(): Set[DeviceEntity]
+  def getAll(): Set[T]
 
 }

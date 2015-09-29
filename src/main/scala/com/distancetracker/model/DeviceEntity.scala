@@ -1,24 +1,23 @@
 package com.distancetracker.model
 
-
-import com.novus.salat.annotations.raw.Key
-import org.bson.types.ObjectId
-
 /**
  * Created by claudio.david on 15/09/2015.
  */
-case class DeviceEntity(@Key("_id") id: String = ObjectId.get.toString, name: String, email: String) {
-  
-  def this(name: String, email: String) {
-    this(ObjectId.get.toString, name, email)
+case class DeviceEntity(name: String, email: String) extends EntityBase {
+
+
+  def this(id: String, name: String, email: String){
+    this(name, email)
+    this.id = id
   }
 
   def this(device: Device) {
-    this(ObjectId.get.toString, device.name, device.email)
+    this(device.name, device.email)
   }
 
   def this(id: String, device: Device) {
-    this(id, device.name, device.email)
+    this(device.name, device.email)
+    this.id = id
   }
 
 }

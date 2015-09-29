@@ -9,7 +9,7 @@ import scala.collection.concurrent.TrieMap
  * @author claudio
  *         This simulates a persistent storage
  */
-object InMemoryDataSource extends DataSource {
+class InMemoryDataSource extends DataSource {
 
   val database = new TrieMap[String, DeviceEntity]
 
@@ -33,4 +33,7 @@ object InMemoryDataSource extends DataSource {
     database.remove(deviceId)
   }
 
+  override def getAllDevices(): Set[DeviceEntity] = {
+    database.values.toSet
+  }
 }

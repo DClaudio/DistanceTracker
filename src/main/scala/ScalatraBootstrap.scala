@@ -13,7 +13,7 @@ import org.scalatra.LifeCycle
 class ScalatraBootstrap extends LifeCycle {
   override def init(context: ServletContext): Unit = {
 
-    implicit val deviceDao = new DeviceDao(InMemoryDataSource)
+    implicit val deviceDao = new DeviceDao(new InMemoryDataSource)
 
     context.mount(new DeviceApi, "/devices/*", "devices")
 

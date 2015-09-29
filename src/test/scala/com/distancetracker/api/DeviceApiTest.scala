@@ -13,8 +13,7 @@ import org.mockito.Mockito._
  */
 class DeviceApiTest extends BaseServletTest {
 
-  val jsonContentTypeHeader = Map("Content-Type" -> "application/json")
-  implicit val jsonFormats: Formats = DefaultFormats
+
   implicit var mockDeviceDao: DeviceDao = mock[DeviceDao]
 
   addServlet(new DeviceApi, "/devices/*")
@@ -89,6 +88,20 @@ class DeviceApiTest extends BaseServletTest {
       val actualDeviceDeleted: DeviceEntity = parse(body).extract[DeviceEntity]
       actualDeviceDeleted should be(updatedDevice)
       verify(mockDeviceDao).update(updatedDevice)
+    }
+    reset(mockDeviceDao)
+  }
+
+  test("GET /devices - get all devices") {
+    val expectedDeviceList = Set(new DeviceEntity("n1", "m1"), new DeviceEntity("n2", "m2"))
+    when(mockDeviceDao.getAll).thenReturn(expectedDeviceList)
+    get("/devices", headers = jsonContentTypeHeader) {
+      status should equal(200)
+      header.getOrElse("Content-Type", fail) should include("application/json")
+
+      val actualDeviceList = parse(body).extract[Set[DeviceEntity]]
+      actualDeviceList should equal(expectedDeviceList)
+      verify(mockDeviceDao).getAll
     }
     reset(mockDeviceDao)
   }

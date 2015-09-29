@@ -2,13 +2,11 @@ package com.distancetracker.dao
 
 import com.distancetracker.model.DeviceEntity
 import com.distancetracker.persistence.DataSource
-import org.bson.types.ObjectId
 
 /**
  * @author claudio
  */
 class DeviceDao(dataSource: DataSource) extends GenericDao[DeviceEntity, String] {
-
 
   def create(newInstance: DeviceEntity): Option[DeviceEntity] = {
     dataSource.createNewDevice(newInstance)
@@ -24,6 +22,10 @@ class DeviceDao(dataSource: DataSource) extends GenericDao[DeviceEntity, String]
 
   def delete(deviceId: String): Option[DeviceEntity] = {
     dataSource.deleteDevice(deviceId)
+  }
+
+  def getAll(): Set[DeviceEntity] = {
+    dataSource.getAllDevices
   }
 
 }

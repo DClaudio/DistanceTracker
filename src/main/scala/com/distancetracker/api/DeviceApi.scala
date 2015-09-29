@@ -28,14 +28,14 @@ class DeviceApi(implicit var deviceDao: DeviceDao) extends BaseController with D
     }
   }
 
-  delete("/device/:deviceId", operation(deleteDeviceOperation)){
+  delete("/device/:deviceId", operation(deleteDeviceOperation)) {
     deviceDao.delete(getDeviceIdFromUrl) match {
       case None => NotFound("device not found")
       case Some(device) => Ok(device)
     }
   }
 
-  put("/device/:deviceId", operation(updateDeviceOperation)){
+  put("/device/:deviceId", operation(updateDeviceOperation)) {
     val device = new DeviceEntity(getDeviceIdFromUrl, getDeviceFromBody)
     deviceDao.update(device) match {
       case None => NotFound("device not found")
@@ -43,7 +43,12 @@ class DeviceApi(implicit var deviceDao: DeviceDao) extends BaseController with D
     }
   }
 
+  get("/",  operation(getDeviceListOperation)){
+    deviceDao.getAll
+  }
+
   def getDeviceFromBody = parsedBody.extractOrElse[Device](halt(400))
+
   def getDeviceIdFromUrl = params.getOrElse("deviceId", halt(400))
 
 

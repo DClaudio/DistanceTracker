@@ -4,9 +4,7 @@ import com.distancetracker.model.DeviceEntity
 import com.distancetracker.persistence.{DataSource, InMemoryDataSource}
 import org.bson.types.ObjectId
 
-/**
- * @author claudio
- */
+
 class InMemoryPersistenceTest extends BaseTest {
 
   var dataSource: DataSource[DeviceEntity]= null
@@ -31,11 +29,11 @@ class InMemoryPersistenceTest extends BaseTest {
     val expectedDevice = dataSource.create(new DeviceEntity("n1", "m1")).get
 
     dataSource.delete(expectedDevice.id) should be(Some(expectedDevice))
-    dataSource.get(expectedDevice.id) should be(None)
+    dataSource.getById(expectedDevice.id) should be(None)
   }
 
   it should "return None when reading a non existing device" in {
-    dataSource.get(ObjectId.get.toString) should be(None)
+    dataSource.getById(ObjectId.get.toString) should be(None)
   }
 
   it should "return all devices registered" in {

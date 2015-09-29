@@ -1,20 +1,18 @@
 package com.distancetracker.api
 
-import com.distancetracker.dao.DeviceDao
 import com.distancetracker.model.{Device, DeviceEntity}
+import com.distancetracker.persistence.DataSource
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.native.Serialization.write
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 
-/**
- * Created by claudio.david on 14/09/2015.
- */
+
 class DeviceApiTest extends BaseServletTest {
 
 
-  implicit var mockDeviceDao: DeviceDao = mock[DeviceDao]
+  implicit var mockDeviceDao: DataSource[DeviceEntity] = mock[DataSource[DeviceEntity]]
 
   addServlet(new DeviceApi, "/devices/*")
 
@@ -36,17 +34,17 @@ class DeviceApiTest extends BaseServletTest {
 
   test("GET non existing device should return Not found") {
     val testId = "123Random"
-    when(mockDeviceDao.read(testId)).thenReturn(None)
+    when(mockDeviceDao.getById(testId)).thenReturn(None)
     get("/devices/device/" + testId, headers = jsonContentTypeHeader) {
       status should equal(404)
-      verify(mockDeviceDao).read(testId)
+      verify(mockDeviceDao).getById(testId)
     }
     reset(mockDeviceDao)
   }
 
   test("GET /devices/device/:id - retrieve a device") {
     val expectedDevice = new DeviceEntity("n1", "m1")
-    when(mockDeviceDao.read(expectedDevice.id)).thenReturn(Some(expectedDevice))
+    when(mockDeviceDao.getById(expectedDevice.id)).thenReturn(Some(expectedDevice))
 
     get("/devices/device/" + expectedDevice.id, headers = jsonContentTypeHeader) {
       status should equal(200)
@@ -54,7 +52,7 @@ class DeviceApiTest extends BaseServletTest {
 
       val actualDevice: DeviceEntity = parse(body).extract[DeviceEntity]
       actualDevice should be(expectedDevice)
-      verify(mockDeviceDao).read(expectedDevice.id)
+      verify(mockDeviceDao).getById(expectedDevice.id)
     }
     reset(mockDeviceDao)
   }

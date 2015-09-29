@@ -10,6 +10,8 @@ import org.scalatra.swagger.{Swagger, SwaggerSupport}
 trait DeviceApiDescription extends SwaggerSupport {
 
   val swagger: Swagger = DistanceTrackerSwagger
+  val applicationDescription: String = "DeviceApi"
+
   val createNewDeviceOperation = (apiOperation[DeviceEntity]("createNewDevice")
     summary "Create a new device in the database."
     parameter bodyParam[Device]("device").description("the device to register").required
@@ -31,7 +33,6 @@ trait DeviceApiDescription extends SwaggerSupport {
   val getDeviceListOperation = (apiOperation[Set[DeviceEntity]]("getAllDevices")
     summary "Get All devices"
     )
-  protected val applicationDescription: String = "DeviceApi"
 
 
 }

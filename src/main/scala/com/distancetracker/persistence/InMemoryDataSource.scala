@@ -1,13 +1,10 @@
 package com.distancetracker.persistence
 
-import com.distancetracker.model.{EntityBase, DeviceEntity}
+import com.distancetracker.model.EntityBase
 
 import scala.collection.concurrent.TrieMap
 
-/**
- * @author claudio
- *         In memory data storage
- */
+
 class InMemoryDataSource[T <: EntityBase] extends DataSource[T] {
 
   val database = new TrieMap[String, T]
@@ -17,7 +14,7 @@ class InMemoryDataSource[T <: EntityBase] extends DataSource[T] {
     Some(entity)
   }
 
-  override def get(id: String): Option[T] = {
+  override def getById(id: String): Option[T] = {
     database.get(id)
   }
 

@@ -5,9 +5,7 @@ import com.mongodb.casbah.Imports._
 import com.novus.salat.global._
 import com.novus.salat._
 
-/**
- * Created by claudio.david on 22/09/2015.
- */
+
 //class MongoDataSource extends DataSource {
 //
 //  val mongoClient = MongoClient("localhost", 27017)

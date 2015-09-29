@@ -1,11 +1,11 @@
 package com.distancetracker.persistence
 
-import com.distancetracker.model.EntityBase
+import com.distancetracker.model.Entity
 
 import scala.collection.concurrent.TrieMap
 
 
-class InMemoryDataSource[T <: EntityBase] extends DataSource[T] {
+class InMemoryDataSource[T <: Entity] extends DataSource[T] {
 
   val database = new TrieMap[String, T]
 

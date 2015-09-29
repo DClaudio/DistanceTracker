@@ -1,9 +1,9 @@
 package com.distancetracker.persistence
 
-import com.distancetracker.model.EntityBase
+import com.distancetracker.model.Entity
 
 
-trait DataSource[T <: EntityBase] {
+trait DataSource[T <: Entity] {
 
   def create(device: T): Option[T]
 

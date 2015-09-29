@@ -12,14 +12,14 @@ import org.mockito.Mockito._
 class DeviceApiTest extends BaseServletTest {
 
 
-  implicit var mockDeviceDao: DataSource[DeviceEntity] = mock[DataSource[DeviceEntity]]
+  implicit var mockDeviceDS: DataSource[DeviceEntity] = mock[DataSource[DeviceEntity]]
 
   addServlet(new DeviceApi, "/devices/*")
 
   test("POST /devices/device - create a device") {
     val deviceParameter = Device("n1", "m1")
     val expectedDevice = new DeviceEntity(deviceParameter)
-    when(mockDeviceDao.create(any[DeviceEntity])).thenReturn(Some(expectedDevice))
+    when(mockDeviceDS.create(any[DeviceEntity])).thenReturn(Some(expectedDevice))
 
     post("/devices/device", body = write(deviceParameter).getBytes, headers = jsonContentTypeHeader) {
       status should equal(201)
@@ -27,24 +27,24 @@ class DeviceApiTest extends BaseServletTest {
 
       val actualDevice: DeviceEntity = parse(body).extract[DeviceEntity]
       actualDevice should be(expectedDevice)
-      verify(mockDeviceDao).create(any[DeviceEntity])
+      verify(mockDeviceDS).create(any[DeviceEntity])
     }
-    reset(mockDeviceDao)
+    reset(mockDeviceDS)
   }
 
   test("GET non existing device should return Not found") {
     val testId = "123Random"
-    when(mockDeviceDao.getById(testId)).thenReturn(None)
+    when(mockDeviceDS.getById(testId)).thenReturn(None)
     get("/devices/device/" + testId, headers = jsonContentTypeHeader) {
       status should equal(404)
-      verify(mockDeviceDao).getById(testId)
+      verify(mockDeviceDS).getById(testId)
     }
-    reset(mockDeviceDao)
+    reset(mockDeviceDS)
   }
 
   test("GET /devices/device/:id - retrieve a device") {
     val expectedDevice = new DeviceEntity("n1", "m1")
-    when(mockDeviceDao.getById(expectedDevice.id)).thenReturn(Some(expectedDevice))
+    when(mockDeviceDS.getById(expectedDevice.id)).thenReturn(Some(expectedDevice))
 
     get("/devices/device/" + expectedDevice.id, headers = jsonContentTypeHeader) {
       status should equal(200)
@@ -52,14 +52,14 @@ class DeviceApiTest extends BaseServletTest {
 
       val actualDevice: DeviceEntity = parse(body).extract[DeviceEntity]
       actualDevice should be(expectedDevice)
-      verify(mockDeviceDao).getById(expectedDevice.id)
+      verify(mockDeviceDS).getById(expectedDevice.id)
     }
-    reset(mockDeviceDao)
+    reset(mockDeviceDS)
   }
 
   test("DELETE /devices/device/:id - removes device") {
     val deviceToDelete = new DeviceEntity("n1", "m1")
-    when(mockDeviceDao.delete(deviceToDelete.id)).thenReturn(Some(deviceToDelete))
+    when(mockDeviceDS.delete(deviceToDelete.id)).thenReturn(Some(deviceToDelete))
 
     delete("/devices/device/" + deviceToDelete.id, headers = jsonContentTypeHeader) {
       status should equal(200)
@@ -67,16 +67,16 @@ class DeviceApiTest extends BaseServletTest {
 
       val actualDeviceDeleted: DeviceEntity = parse(body).extract[DeviceEntity]
       actualDeviceDeleted should be(deviceToDelete)
-      verify(mockDeviceDao).delete(deviceToDelete.id)
+      verify(mockDeviceDS).delete(deviceToDelete.id)
     }
-    reset(mockDeviceDao)
+    reset(mockDeviceDS)
   }
 
   test("PUT /devices/device/:id - updates device") {
     val deviceParameter = Device("updatedValue", "updatedValue")
     val updatedDevice = new DeviceEntity(deviceParameter)
     val deviceToUpdate = new DeviceEntity(updatedDevice.id, "n1", "m1")
-    when(mockDeviceDao.update(updatedDevice)).thenReturn(Some(updatedDevice))
+    when(mockDeviceDS.update(updatedDevice)).thenReturn(Some(updatedDevice))
 
     put("/devices/device/" + deviceToUpdate.id, body = write(deviceParameter).getBytes(),
       headers = jsonContentTypeHeader) {
@@ -85,23 +85,23 @@ class DeviceApiTest extends BaseServletTest {
 
       val actualDeviceDeleted: DeviceEntity = parse(body).extract[DeviceEntity]
       actualDeviceDeleted should be(updatedDevice)
-      verify(mockDeviceDao).update(updatedDevice)
+      verify(mockDeviceDS).update(updatedDevice)
     }
-    reset(mockDeviceDao)
+    reset(mockDeviceDS)
   }
 
   test("GET /devices - get all devices") {
     val expectedDeviceList = Set(new DeviceEntity("n1", "m1"), new DeviceEntity("n2", "m2"))
-    when(mockDeviceDao.getAll).thenReturn(expectedDeviceList)
+    when(mockDeviceDS.getAll).thenReturn(expectedDeviceList)
     get("/devices", headers = jsonContentTypeHeader) {
       status should equal(200)
       header.getOrElse("Content-Type", fail) should include("application/json")
 
       val actualDeviceList = parse(body).extract[Set[DeviceEntity]]
       actualDeviceList should equal(expectedDeviceList)
-      verify(mockDeviceDao).getAll
+      verify(mockDeviceDS).getAll
     }
-    reset(mockDeviceDao)
+    reset(mockDeviceDS)
   }
 
 

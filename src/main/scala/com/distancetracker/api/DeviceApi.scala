@@ -7,26 +7,26 @@ import org.scalatra.{Created, NotFound, Ok}
 import org.slf4j.LoggerFactory
 
 
-class DeviceApi(implicit var dataSource: DataSource[DeviceEntity]) extends BaseController with DeviceApiDescription {
+class DeviceApi(implicit var deviceDS: DataSource[DeviceEntity]) extends BaseController with DeviceApiDescription {
 
   val logger = LoggerFactory.getLogger(getClass)
 
   post("/device", operation(createNewDeviceOperation)) {
     logger.info("create new device method")
-    val createdDevice = dataSource.create(new DeviceEntity(getDeviceFromBody))
+    val createdDevice = deviceDS.create(new DeviceEntity(getDeviceFromBody))
     Created(createdDevice)
   }
 
   get("/device/:deviceId", operation(getDeviceByIdOperation)) {
     logger.info("get device")
-    dataSource.getById(getDeviceIdFromUrl) match {
+    deviceDS.getById(getDeviceIdFromUrl) match {
       case None => NotFound("device not found")
       case Some(device) => Ok(device)
     }
   }
 
   delete("/device/:deviceId", operation(deleteDeviceOperation)) {
-    dataSource.delete(getDeviceIdFromUrl) match {
+    deviceDS.delete(getDeviceIdFromUrl) match {
       case None => NotFound("device not found")
       case Some(device) => Ok(device)
     }
@@ -34,14 +34,14 @@ class DeviceApi(implicit var dataSource: DataSource[DeviceEntity]) extends BaseC
 
   put("/device/:deviceId", operation(updateDeviceOperation)) {
     val device = new DeviceEntity(getDeviceIdFromUrl, getDeviceFromBody)
-    dataSource.update(device) match {
+    deviceDS.update(device) match {
       case None => NotFound("device not found")
       case Some(device) => Ok(device)
     }
   }
 
   get("/", operation(getDeviceListOperation)) {
-    dataSource.getAll
+    deviceDS.getAll
   }
 
   def getDeviceFromBody = parsedBody.extractOrElse[Device](halt(400))

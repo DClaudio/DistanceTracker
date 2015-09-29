@@ -1,7 +1,6 @@
 package com.distancetracker.model
 
-case class DeviceEntity(name: String, email: String) extends EntityBase {
-
+case class DeviceEntity(name: String, email: String) extends Entity {
 
   def this(id: String, name: String, email: String) {
     this(name, email)

@@ -10,8 +10,10 @@ class InMemoryDataSource[T <: Entity] extends DataSource[T,String] {
   val database = new TrieMap[String, T]
 
   override def create(entity: T): Option[T] = {
-    database.putIfAbsent(entity.id, entity)
-    Some(entity)
+    database.putIfAbsent(entity.id, entity) match {
+      case None =>  Some(entity)
+      case Some(_) => None
+    }
   }
 
   override def getById(id: String): Option[T] = {

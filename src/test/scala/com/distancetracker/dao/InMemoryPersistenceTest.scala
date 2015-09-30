@@ -43,4 +43,14 @@ class InMemoryPersistenceTest extends BaseTest {
     dataSource.getAll should equal(expectedDeviceList)
   }
 
+  it should "fail to create two entities with the same key" in {
+    val d1 = new DeviceEntity("n1","m1")
+    val d2 = new DeviceEntity(d1.id, "n2", "m2")
+
+    dataSource.create(d1) should be(Some(d1))
+    dataSource.create(d2) should be(None)
+
+    dataSource.getById(d1.id) should be(Some(d1))
+  }
+
 }

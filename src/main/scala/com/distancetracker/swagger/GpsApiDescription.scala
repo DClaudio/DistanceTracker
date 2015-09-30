@@ -15,4 +15,9 @@ trait GpsApiDescription extends SwaggerSupport {
     parameter bodyParam[Coordinates]("gps coordinates").description("the coordinates to insert").required
     )
 
+  val readDeviceCoordinates = (apiOperation[GpsDataEntity]("readDeviceCoordinates")
+    summary "Read coordinates from the database."
+    parameters (pathParam[String]("deviceid").description("device id")).required
+    )
+
 }

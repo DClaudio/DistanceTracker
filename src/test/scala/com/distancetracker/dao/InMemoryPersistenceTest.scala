@@ -7,7 +7,7 @@ import org.bson.types.ObjectId
 
 class InMemoryPersistenceTest extends BaseTest {
 
-  var dataSource: DataSource[DeviceEntity]= null
+  var dataSource: DataSource[DeviceEntity,String]= null
 
   before {
     dataSource = new InMemoryDataSource[DeviceEntity]

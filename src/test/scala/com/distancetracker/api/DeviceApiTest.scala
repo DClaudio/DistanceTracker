@@ -12,7 +12,7 @@ import org.mockito.Mockito._
 class DeviceApiTest extends BaseServletTest {
 
 
-  implicit var mockDeviceDS: DataSource[DeviceEntity] = mock[DataSource[DeviceEntity]]
+  implicit var mockDeviceDS: DataSource[DeviceEntity,String] = mock[DataSource[DeviceEntity,String]]
 
   addServlet(new DeviceApi, "/devices/*")
 

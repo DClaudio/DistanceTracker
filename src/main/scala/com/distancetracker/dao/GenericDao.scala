@@ -1,18 +1,18 @@
 package com.distancetracker.dao
 
+import com.distancetracker.model.Entity
 
-trait GenericDao[T, PK] {
 
-  /** Persist an item into storage */
-  def create(item: T): Option[T]
+trait GenericDao[T <: Entity,K] {
 
-  /** Retrieve an item from storage */
-  def getById(id: PK): Option[T]
+  def create(entity: T): Option[T]
 
-  /** Save changes made to an item  */
-  def update(item: T): Option[T]
+  def getById(id: K): Option[T]
 
-  /** Remove an item from persistent storage */
-  def delete(id: PK): Option[T]
+  def update(entity: T): Option[T]
+
+  def delete(id: K): Boolean
+
+  def getAll(): Set[T]
 
 }

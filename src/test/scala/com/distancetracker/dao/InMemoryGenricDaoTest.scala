@@ -1,16 +1,15 @@
 package com.distancetracker.dao
 
 import com.distancetracker.model.DeviceEntity
-import com.distancetracker.persistence.{DataSource, InMemoryDataSource}
 import org.bson.types.ObjectId
 
 
-class InMemoryPersistenceTest extends BaseTest {
+class InMemoryGenricDaoTest extends BaseTest {
 
-  var dataSource: DataSource[DeviceEntity, String] = null
+  var dataSource: GenericDao[DeviceEntity, String] = null
 
   before {
-    dataSource = new InMemoryDataSource[DeviceEntity]
+    dataSource = new InMemoryGenericDao[DeviceEntity]
   }
 
   it should "persist a device in a storage" in {

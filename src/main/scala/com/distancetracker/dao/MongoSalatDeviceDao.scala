@@ -1,14 +1,13 @@
 package com.distancetracker.dao
 
 import com.distancetracker.model.DeviceEntity
-import com.distancetracker.persistence.DataSource
 import com.distancetracker.salat.DeviceConversions._
 import com.distancetracker.salat.DeviceQueryParams
 import com.mongodb.casbah.MongoConnection
 import com.novus.salat.dao.SalatDAO
 import com.novus.salat.global._
 
-class MongoSalatDeviceDao extends DataSource[DeviceEntity, String] {
+class MongoSalatDeviceDao extends GenericDao[DeviceEntity, String] {
 
   var deviceCollectionDao = MongoDeviceDao
 

@@ -1,11 +1,12 @@
-package com.distancetracker.persistence
+package com.distancetracker.dao
+
 
 import com.distancetracker.model.Entity
 
 import scala.collection.concurrent.TrieMap
 
 
-class InMemoryDataSource[T <: Entity] extends DataSource[T, String] {
+class InMemoryGenericDao[T <: Entity] extends GenericDao[T, String] {
 
   val database = new TrieMap[String, T]
 

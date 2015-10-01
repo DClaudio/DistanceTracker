@@ -1,7 +1,7 @@
 package com.distancetracker.api
 
+import com.distancetracker.dao.{GenericDao, InMemoryGenericDao}
 import com.distancetracker.model.{Coordinates, GpsDataEntity}
-import com.distancetracker.persistence.{DataSource, InMemoryDataSource}
 import org.bson.types.ObjectId
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
@@ -12,7 +12,7 @@ import org.mockito.Mockito._
 
 class GPSApiTest extends BaseServletTest {
 
-  implicit var mockGpsDS: DataSource[GpsDataEntity,String] = mock[InMemoryDataSource[GpsDataEntity]]
+  implicit var mockGpsDS: GenericDao[GpsDataEntity, String] = mock[InMemoryGenericDao[GpsDataEntity]]
 
   addServlet(new GPSApi, "/coordinates/*")
 
@@ -33,7 +33,7 @@ class GPSApiTest extends BaseServletTest {
   }
 
   test("GET /coordinates/:deviceId - retrieve a device") {
-    val expectedDevice = new GpsDataEntity(ObjectId.get.toString,123, 123)
+    val expectedDevice = new GpsDataEntity(ObjectId.get.toString, 123, 123)
     when(mockGpsDS.getById(expectedDevice.id)).thenReturn(Some(expectedDevice))
 
     get("/coordinates/" + expectedDevice.id, headers = jsonContentTypeHeader) {

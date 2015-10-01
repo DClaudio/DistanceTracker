@@ -1,13 +1,13 @@
 package com.distancetracker.api
 
+import com.distancetracker.dao.GenericDao
 import com.distancetracker.model.{Device, DeviceEntity}
-import com.distancetracker.persistence.DataSource
 import com.distancetracker.swagger.DeviceApiDescription
 import org.scalatra.{NoContent, Created, NotFound, Ok}
 import org.slf4j.LoggerFactory
 
 
-class DeviceApi(implicit var deviceDS: DataSource[DeviceEntity, String]) extends BaseController with DeviceApiDescription {
+class DeviceApi(implicit var deviceDS: GenericDao[DeviceEntity, String]) extends BaseController with DeviceApiDescription {
 
   val logger = LoggerFactory.getLogger(getClass)
 

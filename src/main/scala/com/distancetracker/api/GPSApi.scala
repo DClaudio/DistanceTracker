@@ -1,12 +1,12 @@
 package com.distancetracker.api
 
+import com.distancetracker.dao.GenericDao
 import com.distancetracker.model.{Coordinates, GpsDataEntity}
-import com.distancetracker.persistence.DataSource
 import com.distancetracker.swagger.GpsApiDescription
 import org.scalatra.{NotFound, Ok, Created}
 
 
-class GPSApi(implicit var coordDS: DataSource[GpsDataEntity,String]) extends BaseController with GpsApiDescription {
+class GPSApi(implicit var coordDS: GenericDao[GpsDataEntity,String]) extends BaseController with GpsApiDescription {
 
   post("/:deviceId",operation(insertDeviceCoordinates)) {
     val deviceCoord = coordDS.create(new GpsDataEntity(getDeviceIdFromUrl, getCordFromBody))

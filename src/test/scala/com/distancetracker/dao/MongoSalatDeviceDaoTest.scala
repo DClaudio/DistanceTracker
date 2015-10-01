@@ -4,7 +4,7 @@ import com.distancetracker.model.DeviceEntity
 import org.bson.types.ObjectId
 
 
-class MongoPersistenceTest extends BaseTest {
+class MongoSalatDeviceDaoTest extends BaseTest {
 
   val deviceDao = new MongoSalatDeviceDao
 

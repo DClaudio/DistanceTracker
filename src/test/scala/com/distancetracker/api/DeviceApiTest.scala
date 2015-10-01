@@ -1,7 +1,7 @@
 package com.distancetracker.api
 
+import com.distancetracker.dao.GenericDao
 import com.distancetracker.model.{Device, DeviceEntity}
-import com.distancetracker.persistence.DataSource
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.native.Serialization.write
@@ -12,7 +12,7 @@ import org.mockito.Mockito._
 class DeviceApiTest extends BaseServletTest {
 
 
-  implicit var mockDeviceDS: DataSource[DeviceEntity, String] = mock[DataSource[DeviceEntity, String]]
+  implicit var mockDeviceDS: GenericDao[DeviceEntity, String] = mock[GenericDao[DeviceEntity, String]]
 
   addServlet(new DeviceApi, "/devices/*")
 

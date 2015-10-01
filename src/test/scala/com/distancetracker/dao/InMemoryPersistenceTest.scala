@@ -7,28 +7,28 @@ import org.bson.types.ObjectId
 
 class InMemoryPersistenceTest extends BaseTest {
 
-  var dataSource: DataSource[DeviceEntity,String]= null
+  var dataSource: DataSource[DeviceEntity, String] = null
 
   before {
     dataSource = new InMemoryDataSource[DeviceEntity]
   }
 
   it should "persist a device in a storage" in {
-    val expectedDevice = new DeviceEntity("testName", "testMail")
+    val expectedDevice = new DeviceEntity(name = "testName", email = "testMail")
     dataSource.create(expectedDevice) should be(Some(expectedDevice))
   }
 
   it should "update the device" in {
-    val deviceToUpdate = dataSource.create(new DeviceEntity("n1", "m1")).get
+    val deviceToUpdate = dataSource.create(new DeviceEntity(name = "testName", email = "testMail")).get
     val expectedDevice = new DeviceEntity(deviceToUpdate.id, "updatedName", "updatedMail")
 
     dataSource.update(expectedDevice) should be(Some(expectedDevice))
   }
 
   it should "delete a device" in {
-    val expectedDevice = dataSource.create(new DeviceEntity("n1", "m1")).get
+    val expectedDevice = dataSource.create(new DeviceEntity(name = "testName", email = "testMail")).get
 
-    dataSource.delete(expectedDevice.id) should be(Some(expectedDevice))
+    dataSource.delete(expectedDevice.id) should be(true)
     dataSource.getById(expectedDevice.id) should be(None)
   }
 
@@ -37,14 +37,15 @@ class InMemoryPersistenceTest extends BaseTest {
   }
 
   it should "return all devices registered" in {
-    val expectedDeviceList = Set(new DeviceEntity("n1", "m1"), new DeviceEntity("n2", "m2"))
+    val expectedDeviceList = Set(new DeviceEntity(name = "testName", email = "testMail"),
+      new DeviceEntity(name = "testName", email = "testMail"))
     expectedDeviceList.foreach(dataSource.create)
 
     dataSource.getAll should equal(expectedDeviceList)
   }
 
   it should "fail to create two entities with the same key" in {
-    val d1 = new DeviceEntity("n1","m1")
+    val d1 = new DeviceEntity(name = "testName", email = "testMail")
     val d2 = new DeviceEntity(d1.id, "n2", "m2")
 
     dataSource.create(d1) should be(Some(d1))

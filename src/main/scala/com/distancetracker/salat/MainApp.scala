@@ -12,10 +12,10 @@ import com.mongodb.casbah.Imports.ObjectId
 /**
  * Created by claudio.david on 22/09/2015.
  */
-object MainApp extends App{
-
-  val deviceDao = new MongoSalatDeviceDao
-
+//object MainApp extends App{
+//
+//  val deviceDao = new MongoSalatDeviceDao
+//
 //  val device = new DeviceEntity(name = "Gigel", email = "gigel@yahoo.com")
 //  println(device.id)
 //
@@ -25,13 +25,13 @@ object MainApp extends App{
 //  val resultedDevice = deviceDao.findOneById(device.id)
 //  assert(resultedDevice.isDefined)
 //  println(resultedDevice)
-//  println(resultedDevice.get.id)
-
-  val objId = new ObjectId("5602bb856844ccbe2a9fed97")
-  println(deviceDao.findOneById(objId))
-
-  //TODO: fix this with implicit conversion
+////  println(resultedDevice.get.id)
+//
+//  val objId = new ObjectId("5602bb856844ccbe2a9fed97").toString
+//  println(deviceDao.findOneById(objId))
+//
+//  //TODO: fix this with implicit conversion
 //  val results = deviceDao.find(ref = DeviceQueryParams(name = Some("gigel")))
 //  println(results.toList)
-
-}
+//
+//}

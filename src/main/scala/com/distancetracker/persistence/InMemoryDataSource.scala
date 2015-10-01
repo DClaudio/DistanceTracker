@@ -5,13 +5,13 @@ import com.distancetracker.model.Entity
 import scala.collection.concurrent.TrieMap
 
 
-class InMemoryDataSource[T <: Entity] extends DataSource[T,String] {
+class InMemoryDataSource[T <: Entity] extends DataSource[T, String] {
 
   val database = new TrieMap[String, T]
 
   override def create(entity: T): Option[T] = {
     database.putIfAbsent(entity.id, entity) match {
-      case None =>  Some(entity)
+      case None => Some(entity)
       case Some(_) => None
     }
   }
@@ -27,8 +27,11 @@ class InMemoryDataSource[T <: Entity] extends DataSource[T,String] {
     }
   }
 
-  override def delete(id: String): Option[T] = {
-    database.remove(id)
+  override def delete(id: String): Boolean = {
+    database.remove(id) match {
+      case None => false
+      case Some(_) => true
+    }
   }
 
   override def getAll(): Set[T] = {

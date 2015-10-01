@@ -20,6 +20,7 @@ class MongoSalatDeviceDao extends DataSource[DeviceEntity, String] {
   }
 
   override def update(device: DeviceEntity): Option[DeviceEntity] = {
+    // if writeResult is 1 => update was successful
     deviceCollectionDao.update(DeviceQueryParams(_id = Some(device.id)), device).getN match {
       case 1 => Some(device)
       case default => None
@@ -38,7 +39,10 @@ class MongoSalatDeviceDao extends DataSource[DeviceEntity, String] {
     deviceCollectionDao.findOneById(id)
   }
 
-  override def getAll(): Set[DeviceEntity] = ???
+  override def getAll(): Set[DeviceEntity] = {
+    val mongoCursor = deviceCollectionDao.find(new DeviceQueryParams)
+    mongoCursor.toSet
+  }
 }
 
 

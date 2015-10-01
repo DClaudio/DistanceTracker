@@ -1,5 +1,6 @@
-package com.distancetracker.model
+package com.distancetracker.persistence
 
+import com.distancetracker.model.Coordinates
 import com.novus.salat.annotations.raw.Key
 
 

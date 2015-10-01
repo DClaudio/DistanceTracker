@@ -1,7 +1,7 @@
 package com.distancetracker.dao
 
 
-import com.distancetracker.model.Entity
+import com.distancetracker.persistence.Entity
 
 import scala.collection.concurrent.TrieMap
 

@@ -1,4 +1,4 @@
-package com.distancetracker.model
+package com.distancetracker.persistence
 
 import com.novus.salat.annotations._
 import org.bson.types.ObjectId

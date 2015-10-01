@@ -1,7 +1,8 @@
 package com.distancetracker.api
 
 import com.distancetracker.dao.GenericDao
-import com.distancetracker.model.{Coordinates, GpsDataEntity}
+import com.distancetracker.model.Coordinates
+import com.distancetracker.persistence.GpsDataEntity
 import com.distancetracker.swagger.GpsApiDescription
 import org.scalatra.{NotFound, Ok, Created}
 

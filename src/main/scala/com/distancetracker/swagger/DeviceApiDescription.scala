@@ -1,6 +1,7 @@
 package com.distancetracker.swagger
 
-import com.distancetracker.model.{Device, DeviceEntity}
+import com.distancetracker.model.Device
+import com.distancetracker.persistence.DeviceEntity
 import org.scalatra.swagger.{Swagger, SwaggerSupport}
 
 /**

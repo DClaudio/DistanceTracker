@@ -1,7 +1,8 @@
 package com.distancetracker.api
 
 import com.distancetracker.dao.GenericDao
-import com.distancetracker.model.{Device, DeviceEntity}
+import com.distancetracker.model.Device
+import com.distancetracker.persistence.DeviceEntity
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.native.Serialization.write

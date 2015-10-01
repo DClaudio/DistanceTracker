@@ -1,6 +1,7 @@
 package com.distancetracker.swagger
 
-import com.distancetracker.model.{Coordinates, GpsDataEntity}
+import com.distancetracker.model.Coordinates
+import com.distancetracker.persistence.GpsDataEntity
 import org.scalatra.swagger.{Swagger, SwaggerSupport}
 
 

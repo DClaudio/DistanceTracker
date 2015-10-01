@@ -1,6 +1,6 @@
 package com.distancetracker.dao
 
-import com.distancetracker.model.DeviceEntity
+import com.distancetracker.persistence.DeviceEntity
 import org.bson.types.ObjectId
 
 

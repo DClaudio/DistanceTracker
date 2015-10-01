@@ -1,7 +1,8 @@
 package com.distancetracker.api
 
 import com.distancetracker.dao.{GenericDao, InMemoryGenericDao}
-import com.distancetracker.model.{Coordinates, GpsDataEntity}
+import com.distancetracker.model.Coordinates
+import com.distancetracker.persistence.GpsDataEntity
 import org.bson.types.ObjectId
 import org.json4s._
 import org.json4s.jackson.JsonMethods._

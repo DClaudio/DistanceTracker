@@ -1,8 +1,8 @@
 import javax.servlet.ServletContext
 
-import com.distancetracker.api.{GPSApi, DeviceApi}
+import com.distancetracker.api.{DeviceApi, GPSApi}
 import com.distancetracker.dao.InMemoryGenericDao
-import com.distancetracker.model.{GpsDataEntity, DeviceEntity}
+import com.distancetracker.persistence.{DeviceEntity, GpsDataEntity}
 import com.distancetracker.swagger.SwaggerIntegrationServlet
 import org.scalatra.LifeCycle
 

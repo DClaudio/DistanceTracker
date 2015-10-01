@@ -1,7 +1,8 @@
 package com.distancetracker.api
 
 import com.distancetracker.dao.GenericDao
-import com.distancetracker.model.{Device, DeviceEntity}
+import com.distancetracker.model.Device
+import com.distancetracker.persistence.DeviceEntity
 import com.distancetracker.swagger.DeviceApiDescription
 import org.scalatra.{NoContent, Created, NotFound, Ok}
 import org.slf4j.LoggerFactory

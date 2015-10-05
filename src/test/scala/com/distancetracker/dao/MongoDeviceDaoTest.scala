@@ -2,19 +2,43 @@ package com.distancetracker.dao
 
 import com.distancetracker.persistence.DeviceEntity
 import com.mongodb.casbah.MongoClient
+import de.flapdoodle.embed.mongo.config.{MongodConfigBuilder, Net}
+import de.flapdoodle.embed.mongo.distribution.Version
+import de.flapdoodle.embed.mongo.{MongodExecutable, MongodProcess, MongodStarter}
+import de.flapdoodle.embed.process.runtime.Network
 import org.bson.types.ObjectId
 
 
 class MongoDeviceDaoTest extends BaseTest {
 
+  val mongoDbPort: Int = 12345;
+  val mongoDbUrl: String = "localhost";
+  val databaseName: String = "distance_tracker"
+  val collectionName: String = "device"
+  val deviceCollectionDao = new SalatDeviceDao(MongoClient(mongoDbUrl, mongoDbPort), databaseName, collectionName)
+  val deviceDao: MongoDeviceDao = new MongoDeviceDao(deviceCollectionDao)
+  var mongoD: MongodProcess = null
+  var mongodExe: MongodExecutable = null
 
-  var deviceCollectionDao = new SalatDeviceDao(MongoClient(), "distance_tracker", "device")
-  var deviceDao: MongoDeviceDao = new MongoDeviceDao(deviceCollectionDao)
+  override def beforeAll(): Unit = {
+    val mongodConfig = new MongodConfigBuilder()
+      .version(Version.Main.PRODUCTION)
+      .net(new Net(mongoDbPort, Network.localhostIsIPv6()))
+      .build()
+    mongodExe = MongodStarter.getDefaultInstance.prepare(mongodConfig)
+    mongoD = mongodExe.start
 
+    val mongo = MongoClient(mongoDbUrl, mongoDbPort)
+    val db = mongo.getDB(databaseName)
+    db.getCollection(collectionName)
 
-  override def afterAll() {
+  }
+
+  override def afterAll(): Unit = {
     // close mongo connection
-    deviceCollectionDao.client.close()
+    deviceDao.deviceCollectionDao.client.close()
+    mongoD.stop
+    mongodExe.stop
   }
 
 

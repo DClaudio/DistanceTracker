@@ -32,6 +32,7 @@ object MyScalatraWebAppBuild extends Build {
         "org.scalatra" %% "scalatra-scalatest" % ScalatraVersion % "test",
         "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",
         "org.mockito" % "mockito-core" % "1.9.5" % "test",
+        "de.flapdoodle.embed" % "de.flapdoodle.embed.mongo" % "1.50.0" % "test",
         "ch.qos.logback" % "logback-classic" % "1.1.1" % "runtime"
       )
     )

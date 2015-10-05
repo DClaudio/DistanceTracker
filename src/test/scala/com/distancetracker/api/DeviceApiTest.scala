@@ -2,7 +2,7 @@ package com.distancetracker.api
 
 import com.distancetracker.dao.GenericDao
 import com.distancetracker.model.Device
-import com.distancetracker.persistence.DeviceEntity
+import com.distancetracker.persistence.{DeviceEntity, GpsDataEntity}
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.native.Serialization.write
@@ -14,13 +14,16 @@ class DeviceApiTest extends BaseServletTest {
 
 
   implicit var mockDeviceDS: GenericDao[DeviceEntity, String] = mock[GenericDao[DeviceEntity, String]]
+  implicit var mockGpsDS: GenericDao[GpsDataEntity, String] = mock[GenericDao[GpsDataEntity, String]]
 
   addServlet(new DeviceApi, "/devices/*")
 
   test("POST /devices/device - create a device") {
     val deviceParameter = Device("n1", "m1")
     val expectedDevice = new DeviceEntity(name = deviceParameter.name, email = deviceParameter.email)
+    val expectedGps = new GpsDataEntity(id = expectedDevice.id, 0, 0)
     when(mockDeviceDS.create(any[DeviceEntity])).thenReturn(Some(expectedDevice))
+    when(mockGpsDS.create(any[GpsDataEntity])).thenReturn(Some(expectedGps))
 
     post("/devices/device", body = write(deviceParameter).getBytes, headers = jsonContentTypeHeader) {
       status should equal(201)
@@ -29,6 +32,7 @@ class DeviceApiTest extends BaseServletTest {
       val actualDevice: DeviceEntity = parse(body).extract[DeviceEntity]
       actualDevice should be(expectedDevice)
       verify(mockDeviceDS).create(any[DeviceEntity])
+      verify(mockGpsDS).create(any[GpsDataEntity])
     }
     reset(mockDeviceDS)
   }
@@ -61,13 +65,16 @@ class DeviceApiTest extends BaseServletTest {
   test("DELETE /devices/device/:id - removes device") {
     val deviceToDelete = new DeviceEntity(name = "n1", email = "m1")
     when(mockDeviceDS.delete(deviceToDelete.id)).thenReturn(true)
+    when(mockGpsDS.delete(deviceToDelete.id)).thenReturn(true)
 
     delete("/devices/device/" + deviceToDelete.id, headers = jsonContentTypeHeader) {
       status should equal(204)
       header.getOrElse("Content-Type", fail) should include("application/json")
       verify(mockDeviceDS).delete(deviceToDelete.id)
+      verify(mockGpsDS).delete(deviceToDelete.id)
     }
     reset(mockDeviceDS)
+    reset(mockGpsDS)
   }
 
   test("PUT /devices/device/:id - updates device") {

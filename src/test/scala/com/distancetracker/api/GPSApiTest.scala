@@ -1,6 +1,6 @@
 package com.distancetracker.api
 
-import com.distancetracker.dao.{GenericDao, InMemoryGenericDao}
+import com.distancetracker.dao.GenericDao
 import com.distancetracker.model.Coordinates
 import com.distancetracker.persistence.GpsDataEntity
 import org.bson.types.ObjectId
@@ -13,22 +13,22 @@ import org.mockito.Mockito._
 
 class GPSApiTest extends BaseServletTest {
 
-  implicit var mockGpsDS: GenericDao[GpsDataEntity, String] = mock[InMemoryGenericDao[GpsDataEntity]]
+  implicit var mockGpsDS: GenericDao[GpsDataEntity, String] = mock[GenericDao[GpsDataEntity, String]]
 
   addServlet(new GPSApi, "/coordinates/*")
 
-  test("POST /coordinates/:deviceId - insert device coordinates") {
+  test("PUT /coordinates/:deviceId - insert device coordinates") {
     val coordinatesParam = Coordinates(123, 123)
-    val expectedDevice = new GpsDataEntity(ObjectId.get.toString, coordinatesParam)
-    when(mockGpsDS.create(any[GpsDataEntity])).thenReturn(Some(expectedDevice))
+    val expectedCoord = new GpsDataEntity(ObjectId.get.toString, coordinatesParam)
+    when(mockGpsDS.update(any[GpsDataEntity])).thenReturn(Some(expectedCoord))
 
-    post("/coordinates/" + expectedDevice.id, body = write(coordinatesParam).getBytes, headers = jsonContentTypeHeader) {
+    put("/coordinates/" + expectedCoord.id, body = write(coordinatesParam).getBytes, headers = jsonContentTypeHeader) {
       status should equal(201)
       header.getOrElse("Content-Type", fail) should include("application/json")
 
       val actualDevice: GpsDataEntity = parse(body).extract[GpsDataEntity]
-      actualDevice should be(expectedDevice)
-      verify(mockGpsDS).create(any[GpsDataEntity])
+      actualDevice should be(expectedCoord)
+      verify(mockGpsDS).update(any[GpsDataEntity])
     }
     reset(mockGpsDS)
   }

@@ -2,13 +2,14 @@ package com.distancetracker.api
 
 import com.distancetracker.dao.GenericDao
 import com.distancetracker.model.Device
-import com.distancetracker.persistence.DeviceEntity
+import com.distancetracker.persistence.{DeviceEntity, GpsDataEntity}
 import com.distancetracker.swagger.DeviceApiDescription
-import org.scalatra.{NoContent, Created, NotFound, Ok}
+import org.scalatra.{Created, NoContent, NotFound, Ok}
 import org.slf4j.LoggerFactory
 
 
-class DeviceApi(implicit var deviceDS: GenericDao[DeviceEntity, String]) extends BaseController with DeviceApiDescription {
+class DeviceApi(implicit var deviceDS: GenericDao[DeviceEntity, String],
+                implicit var coordDS: GenericDao[GpsDataEntity, String]) extends BaseController with DeviceApiDescription {
 
   val logger = LoggerFactory.getLogger(getClass)
 
@@ -16,6 +17,7 @@ class DeviceApi(implicit var deviceDS: GenericDao[DeviceEntity, String]) extends
     logger.info("create new device method")
     val dev = getDeviceFromBody
     val createdDevice = deviceDS.create(new DeviceEntity(name = dev.name, email = dev.email))
+    coordDS.create(new GpsDataEntity(createdDevice.get.id, 0, 0))
     Created(createdDevice)
   }
 
@@ -30,7 +32,10 @@ class DeviceApi(implicit var deviceDS: GenericDao[DeviceEntity, String]) extends
   delete("/device/:deviceId", operation(deleteDeviceOperation)) {
     deviceDS.delete(getDeviceIdFromUrl) match {
       case false => NotFound("device not found")
-      case true => NoContent(reason="delete succesful")
+      case true => {
+        coordDS.delete(getDeviceIdFromUrl)
+        NoContent(reason = "delete succesful")
+      }
     }
   }
 

@@ -1,12 +1,21 @@
 package com.distancetracker.dao
 
 import com.distancetracker.persistence.DeviceEntity
+import com.mongodb.casbah.MongoClient
 import org.bson.types.ObjectId
 
 
-class MongoSalatDeviceDaoTest extends BaseTest {
+class MongoDeviceDaoTest extends BaseTest {
 
-  val deviceDao = new MongoSalatDeviceDao
+
+  var deviceCollectionDao = new SalatDeviceDao(MongoClient(), "distance_tracker", "device")
+  var deviceDao: MongoDeviceDao = new MongoDeviceDao(deviceCollectionDao)
+
+
+  override def afterAll() {
+    // close mongo connection
+    deviceCollectionDao.client.close()
+  }
 
 
   it should "persist a device" in {

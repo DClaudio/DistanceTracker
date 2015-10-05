@@ -1,15 +1,13 @@
 package com.distancetracker.dao
 
-import com.distancetracker.persistence.DeviceEntity
+import com.distancetracker.persistence.{DeviceEntity, GpsDataEntity}
 import com.distancetracker.salat.DeviceConversions._
 import com.distancetracker.salat.DeviceQueryParams
-import com.mongodb.casbah.MongoConnection
+import com.mongodb.casbah.MongoClient
 import com.novus.salat.dao.SalatDAO
 import com.novus.salat.global._
 
-class MongoSalatDeviceDao extends GenericDao[DeviceEntity, String] {
-
-  var deviceCollectionDao = MongoDeviceDao
+class MongoDeviceDao(var deviceCollectionDao: SalatDeviceDao) extends GenericDao[DeviceEntity, String] {
 
   override def create(device: DeviceEntity): Option[DeviceEntity] = {
     deviceCollectionDao.insert(device) match {
@@ -45,4 +43,7 @@ class MongoSalatDeviceDao extends GenericDao[DeviceEntity, String] {
 }
 
 
-object MongoDeviceDao extends SalatDAO[DeviceEntity, String](collection = MongoConnection()("distance_tracker")("device"))
+object MongoGpsDataDao extends SalatDAO[GpsDataEntity, String](collection = MongoClient()("distance_tracker")("coordinates"))
+
+
+class SalatDeviceDao(val client: MongoClient, databaseName: String, collectionName: String) extends SalatDAO[DeviceEntity, String](client(databaseName)(collectionName))

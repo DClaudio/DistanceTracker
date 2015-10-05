@@ -1,6 +1,6 @@
 package com.distancetracker.dao
 
-import org.scalatest.{BeforeAndAfter, FlatSpec, Matchers}
+import org.scalatest.{BeforeAndAfterAll, BeforeAndAfter, FlatSpec, Matchers}
 
 
-abstract class BaseTest extends FlatSpec with BeforeAndAfter with Matchers
+abstract class BaseTest extends FlatSpec with BeforeAndAfter with Matchers with BeforeAndAfterAll

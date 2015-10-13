@@ -1,6 +1,6 @@
 package com.distancetracker.dao
 
-import com.distancetracker.persistence.{DeviceEntity, GpsDataEntity}
+import com.distancetracker.persistence.DeviceEntity
 import com.distancetracker.salat.DeviceConversions._
 import com.distancetracker.salat.DeviceQueryParams
 import com.mongodb.casbah.MongoClient
@@ -42,8 +42,7 @@ class MongoDeviceDao(var deviceCollectionDao: SalatDeviceDao) extends GenericDao
   }
 }
 
-
-object MongoGpsDataDao extends SalatDAO[GpsDataEntity, String](collection = MongoClient()("distance_tracker")("coordinates"))
-
-
 class SalatDeviceDao(val client: MongoClient, databaseName: String, collectionName: String) extends SalatDAO[DeviceEntity, String](client(databaseName)(collectionName))
+
+
+//class GenericSalatDao[T<: Entity](val client: MongoClient, databaseName: String, collectionName: String) extends SalatDAO[T, String](client(databaseName)(collectionName))

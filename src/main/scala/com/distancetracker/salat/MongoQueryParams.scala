@@ -1,8 +1,9 @@
 package com.distancetracker.salat
 
-/**
- * Created by claudio.david on 22/09/2015.
- */
 case class DeviceQueryParams(_id: Option[String] = None,
                              name: Option[String] = None,
                              email: Option[String] = None)
+
+case class GpsDataQueryParams(_id: Option[String] = None,
+                              latitude: Option[Double] = None,
+                              longitude: Option[Double] = None)

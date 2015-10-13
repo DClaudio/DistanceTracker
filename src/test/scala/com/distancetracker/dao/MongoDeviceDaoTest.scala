@@ -1,6 +1,7 @@
 package com.distancetracker.dao
 
 import com.distancetracker.persistence.DeviceEntity
+import com.distancetracker.util.PropertiesHelper
 import com.mongodb.casbah.MongoClient
 import de.flapdoodle.embed.mongo.MongodProcess
 import org.bson.types.ObjectId
@@ -9,10 +10,10 @@ import org.slf4j.LoggerFactory
 
 class MongoDeviceDaoTest extends BaseTest {
 
-  val mongoDbPort: Int = config.getInt("mongoDB.port")
-  val mongoDbUrl: String = config.getString("mongoDB.url")
-  val databaseName: String = config.getString("mongoDB.databaseName")
-  val deviceCollectionName: String = config.getString("mongoDB.collectionName.devices")
+  val mongoDbPort: Int = PropertiesHelper.getMongoPort
+  val mongoDbUrl: String = PropertiesHelper.getMongoUrl
+  val databaseName: String = PropertiesHelper.getDatabaseName
+  val deviceCollectionName: String = PropertiesHelper.getDeviceCollectionName
 
   val deviceCollectionDao = new SalatDeviceDao(MongoClient(mongoDbUrl, mongoDbPort), databaseName, deviceCollectionName)
   val deviceDao: MongoDeviceDao = new MongoDeviceDao(deviceCollectionDao)
@@ -21,8 +22,7 @@ class MongoDeviceDaoTest extends BaseTest {
 
   override def beforeAll(): Unit = {
     // create the collection
-    val mongo = MongoClient(mongoDbUrl, mongoDbPort)
-    val db = mongo.getDB(databaseName)
+    val db = MongoClient(mongoDbUrl, mongoDbPort).getDB(databaseName)
     db.getCollection(deviceCollectionName)
 
   }

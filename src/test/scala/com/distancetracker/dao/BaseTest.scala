@@ -1,6 +1,5 @@
 package com.distancetracker.dao
 
-import com.typesafe.config.{Config, ConfigFactory}
 import de.flapdoodle.embed.mongo.config.{MongodConfigBuilder, Net, RuntimeConfigBuilder}
 import de.flapdoodle.embed.mongo.distribution.Version
 import de.flapdoodle.embed.mongo.{Command, MongodExecutable, MongodStarter}
@@ -11,8 +10,6 @@ import org.slf4j.Logger
 
 
 abstract class BaseTest extends FlatSpec with BeforeAndAfter with Matchers with BeforeAndAfterAll {
-  
-  val config: Config = ConfigFactory.load
 
   def getMongoDaemon(mongoDbPort: Int, logger: Logger): MongodExecutable = {
     val runtimeConfig: IRuntimeConfig = new RuntimeConfigBuilder()

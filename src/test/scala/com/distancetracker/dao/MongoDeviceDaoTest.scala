@@ -2,43 +2,36 @@ package com.distancetracker.dao
 
 import com.distancetracker.persistence.DeviceEntity
 import com.mongodb.casbah.MongoClient
-import de.flapdoodle.embed.mongo.config.{MongodConfigBuilder, Net}
-import de.flapdoodle.embed.mongo.distribution.Version
-import de.flapdoodle.embed.mongo.{MongodExecutable, MongodProcess, MongodStarter}
-import de.flapdoodle.embed.process.runtime.Network
+import de.flapdoodle.embed.mongo.MongodProcess
 import org.bson.types.ObjectId
+import org.slf4j.LoggerFactory
 
 
 class MongoDeviceDaoTest extends BaseTest {
 
-  val mongoDbPort: Int = 12345;
-  val mongoDbUrl: String = "localhost";
-  val databaseName: String = "distance_tracker"
-  val collectionName: String = "device"
-  val deviceCollectionDao = new SalatDeviceDao(MongoClient(mongoDbUrl, mongoDbPort), databaseName, collectionName)
+  val mongoDbPort: Int = config.getInt("mongoDB.port")
+  val mongoDbUrl: String = config.getString("mongoDB.url")
+  val databaseName: String = config.getString("mongoDB.databaseName")
+  val deviceCollectionName: String = config.getString("mongoDB.collectionName.devices")
+
+  val deviceCollectionDao = new SalatDeviceDao(MongoClient(mongoDbUrl, mongoDbPort), databaseName, deviceCollectionName)
   val deviceDao: MongoDeviceDao = new MongoDeviceDao(deviceCollectionDao)
-  var mongoD: MongodProcess = null
-  var mongodExe: MongodExecutable = null
+  val logger = LoggerFactory.getLogger(getClass)
+  val mongoDaemon: MongodProcess = getMongoDaemon(mongoDbPort, logger).start
 
   override def beforeAll(): Unit = {
-    val mongodConfig = new MongodConfigBuilder()
-      .version(Version.Main.PRODUCTION)
-      .net(new Net(mongoDbPort, Network.localhostIsIPv6()))
-      .build()
-    mongodExe = MongodStarter.getDefaultInstance.prepare(mongodConfig)
-    mongoD = mongodExe.start
-
+    // create the collection
     val mongo = MongoClient(mongoDbUrl, mongoDbPort)
     val db = mongo.getDB(databaseName)
-    db.getCollection(collectionName)
+    db.getCollection(deviceCollectionName)
 
   }
 
   override def afterAll(): Unit = {
     // close mongo connection
     deviceDao.deviceCollectionDao.client.close()
-    mongoD.stop
-    mongodExe.stop
+    // stop the mongo process
+    mongoDaemon.stop
   }
 
 

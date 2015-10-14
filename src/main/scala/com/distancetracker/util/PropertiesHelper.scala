@@ -6,15 +6,17 @@ object PropertiesHelper {
   // load application config:
   val config: Config = ConfigFactory.load
 
-  def useInMemoryDataBase: Boolean = config.getBoolean("app.useInMemDatabase")
+  val prefix = "app."
 
-  def getMongoPort: Int = config.getInt("mongoDB.port")
+  def useInMemoryDataBase: Boolean = config.getBoolean(prefix + "useInMemDatabase")
 
-  def getMongoUrl: String = config.getString("mongoDB.url")
+  def getMongoPort: Int = config.getInt(prefix + "mongoDB.port")
 
-  def getDatabaseName: String = config.getString("mongoDB.databaseName")
+  def getMongoUrl: String = config.getString(prefix + "mongoDB.url")
 
-  def getDeviceCollectionName: String = config.getString("mongoDB.collectionName.devices")
+  def getDatabaseName: String = config.getString(prefix + "mongoDB.databaseName")
 
-  def getGpsCollectionName: String = config.getString("mongoDB.collectionName.gpsData")
+  def getDeviceCollectionName: String = config.getString(prefix + "mongoDB.collectionName.devices")
+
+  def getGpsCollectionName: String = config.getString(prefix + "mongoDB.collectionName.gpsData")
 }

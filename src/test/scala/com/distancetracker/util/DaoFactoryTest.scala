@@ -1,6 +1,7 @@
 package com.distancetracker.util
 
-import com.distancetracker.dao.{BaseTest, InMemoryGenericDao}
+import com.distancetracker.BaseTest
+import com.distancetracker.dao.InMemoryGenericDao
 import com.distancetracker.persistence.{GpsDataEntity, DeviceEntity}
 
 

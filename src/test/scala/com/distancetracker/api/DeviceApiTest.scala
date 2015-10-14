@@ -1,5 +1,6 @@
 package com.distancetracker.api
 
+import com.distancetracker.BaseServletTest
 import com.distancetracker.dao.GenericDao
 import com.distancetracker.model.Device
 import com.distancetracker.persistence.{DeviceEntity, GpsDataEntity}

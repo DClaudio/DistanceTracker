@@ -9,8 +9,6 @@ import org.scalatra.LifeCycle
 
 class ScalatraBootstrap extends LifeCycle {
 
-  val mongoClient: MongoClient = MongoClient()
-
   override def init(context: ServletContext): Unit = {
 
     implicit val deviceDS = DaoFactory.getDeviceDao
@@ -24,7 +22,7 @@ class ScalatraBootstrap extends LifeCycle {
   }
 
   override def destroy(context: ServletContext): Unit = {
-    mongoClient.close()
+
   }
 
 }

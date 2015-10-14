@@ -1,5 +1,6 @@
 package com.distancetracker.dao
 
+import com.distancetracker.{EmbeddedMongoTest, BaseTest}
 import com.distancetracker.persistence.DeviceEntity
 import com.distancetracker.util.PropertiesHelper
 import com.mongodb.casbah.MongoClient
@@ -8,7 +9,7 @@ import org.bson.types.ObjectId
 import org.slf4j.LoggerFactory
 
 
-class MongoDeviceDaoTest extends BaseTest {
+class MongoDeviceDaoTest extends BaseTest with EmbeddedMongoTest{
 
   val mongoDbPort: Int = PropertiesHelper.getMongoPort
   val mongoDbUrl: String = PropertiesHelper.getMongoUrl

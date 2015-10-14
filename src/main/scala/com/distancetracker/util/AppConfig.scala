@@ -2,10 +2,25 @@ package com.distancetracker.util
 
 import com.typesafe.config.{Config, ConfigFactory}
 
-object PropertiesHelper {
-  // load application config:
-  val config: Config = ConfigFactory.load
+object ConfigurationHelper {
 
+  val testConfig: Config = ConfigFactory.load("test")
+  val appConfig: Config = ConfigFactory.load("application")
+
+  def getTestConfig: AppConfig = {
+    new AppConfig(ConfigFactory.defaultOverrides()
+      .withFallback(testConfig)
+      .withFallback(appConfig)
+    )
+  }
+
+  def getAppConfig: AppConfig = {
+    new AppConfig(appConfig)
+  }
+
+}
+
+class AppConfig(val config: Config) {
   val prefix = "app."
 
   def useInMemoryDataBase: Boolean = config.getBoolean(prefix + "useInMemDatabase")
@@ -20,3 +35,4 @@ object PropertiesHelper {
 
   def getGpsCollectionName: String = config.getString(prefix + "mongoDB.collectionName.gpsData")
 }
+

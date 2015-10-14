@@ -22,7 +22,8 @@ class ScalatraBootstrap extends LifeCycle {
   }
 
   override def destroy(context: ServletContext): Unit = {
-
+    //close mongo clients if any
+    DaoFactory.getMongoClients.foreach(c => c.close())
   }
 
 }

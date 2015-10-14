@@ -1,20 +1,22 @@
 package com.distancetracker.dao
 
-import com.distancetracker.{EmbeddedMongoTest, BaseTest}
 import com.distancetracker.persistence.DeviceEntity
-import com.distancetracker.util.PropertiesHelper
+import com.distancetracker.util.ConfigurationHelper
+import com.distancetracker.{BaseTest, EmbeddedMongoTest}
 import com.mongodb.casbah.MongoClient
 import de.flapdoodle.embed.mongo.MongodProcess
 import org.bson.types.ObjectId
 import org.slf4j.LoggerFactory
 
 
-class MongoDeviceDaoTest extends BaseTest with EmbeddedMongoTest{
+class MongoDeviceDaoTest extends BaseTest with EmbeddedMongoTest {
 
-  val mongoDbPort: Int = PropertiesHelper.getMongoPort
-  val mongoDbUrl: String = PropertiesHelper.getMongoUrl
-  val databaseName: String = PropertiesHelper.getDatabaseName
-  val deviceCollectionName: String = PropertiesHelper.getDeviceCollectionName
+  val config = ConfigurationHelper.getTestConfig
+
+  val mongoDbPort: Int = config.getMongoPort
+  val mongoDbUrl: String = config.getMongoUrl
+  val databaseName: String = config.getDatabaseName
+  val deviceCollectionName: String = config.getDeviceCollectionName
 
   val deviceCollectionDao = new SalatDeviceDao(MongoClient(mongoDbUrl, mongoDbPort), databaseName, deviceCollectionName)
   val deviceDao: MongoDeviceDao = new MongoDeviceDao(deviceCollectionDao)

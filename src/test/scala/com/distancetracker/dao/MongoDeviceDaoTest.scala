@@ -18,7 +18,7 @@ class MongoDeviceDaoTest extends BaseTest with EmbeddedMongoTest {
   val databaseName: String = config.getDatabaseName
   val deviceCollectionName: String = config.getDeviceCollectionName
 
-  val deviceCollectionDao = new SalatDeviceDao(MongoClient(mongoDbUrl, mongoDbPort), databaseName, deviceCollectionName)
+  val deviceCollectionDao = new SalatDeviceColletionDao(MongoClient(mongoDbUrl, mongoDbPort), databaseName, deviceCollectionName)
   val deviceDao: MongoDeviceDao = new MongoDeviceDao(deviceCollectionDao)
   val logger = LoggerFactory.getLogger(getClass)
   val mongoDaemon: MongodProcess = getMongoDaemon(mongoDbPort, logger).start

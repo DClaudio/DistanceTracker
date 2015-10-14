@@ -15,7 +15,7 @@ object DaoFactory {
     if (config.useInMemoryDataBase) new InMemoryGenericDao[DeviceEntity]
     else {
       val mongoClient = MongoClient(config.getMongoUrl, config.getMongoPort)
-      val salatDeviceDao = new SalatDeviceDao(mongoClient, config.getDatabaseName, config.getDeviceCollectionName)
+      val salatDeviceDao = new SalatDeviceColletionDao(mongoClient, config.getDatabaseName, config.getDeviceCollectionName)
       new MongoDeviceDao(salatDeviceDao)
     }
   }

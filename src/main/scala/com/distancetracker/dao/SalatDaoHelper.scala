@@ -11,7 +11,7 @@ import com.novus.salat.global._
 class SalatDeviceColletionDao(val client: MongoClient, databaseName: String, collectionName: String)
   extends SalatDAO[DeviceEntity, String](client(databaseName)(collectionName))
 
-class SalatGpsDataColectionDao(val client: MongoClient, databaseName: String, collectionName: String)
+class SalatGpsDataCollectionDao(val client: MongoClient, databaseName: String, collectionName: String)
   extends SalatDAO[GpsDataEntity, String](client(databaseName)(collectionName))
 
 

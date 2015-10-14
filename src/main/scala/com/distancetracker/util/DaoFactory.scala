@@ -24,7 +24,7 @@ object DaoFactory {
     if (config.useInMemoryDataBase) new InMemoryGenericDao[GpsDataEntity]
     else {
       val mongoClient = MongoClient(config.getMongoUrl, config.getMongoPort)
-      val salatGpsDataDao = new SalatGpsDataColectionDao(mongoClient, config.getDatabaseName, config.getDeviceCollectionName)
+      val salatGpsDataDao = new SalatGpsDataCollectionDao(mongoClient, config.getDatabaseName, config.getDeviceCollectionName)
       new MongoGpsDao(salatGpsDataDao)
     }
   }

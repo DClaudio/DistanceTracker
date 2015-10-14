@@ -3,7 +3,7 @@ package com.distancetracker.dao
 import com.distancetracker.dao.GpsDataConversions._
 import com.distancetracker.persistence.GpsDataEntity
 
-class MongoGpsDao(var gpsDataCollection: SalatGpsDataColectionDao) extends GenericDao[GpsDataEntity, String] {
+class MongoGpsDao(var gpsDataCollection: SalatGpsDataCollectionDao) extends GenericDao[GpsDataEntity, String] {
 
   override def create(gpsData: GpsDataEntity): Option[GpsDataEntity] = {
     gpsDataCollection.insert(gpsData) match {
